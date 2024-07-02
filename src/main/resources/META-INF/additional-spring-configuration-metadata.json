@@ -1,0 +1,99 @@
+{
+  "properties": [
+    {
+      "name": "kafka.topics.eux-rina-document-events-v1",
+      "type": "java.lang.String",
+      "description": "Kafka topic for EUX RINA document events."
+    },
+    {
+      "name": "kafka.bootstrap-servers",
+      "type": "java.lang.String",
+      "description": "Kafka bootstrap servers."
+    },
+    {
+      "name": "kafka.properties.security.protocol",
+      "type": "java.lang.String",
+      "description": "Kafka security protocol."
+    },
+    {
+      "name": "kafka.properties.ssl.keystore.type",
+      "type": "java.lang.String",
+      "description": "Kafka SSL keystore type."
+    },
+    {
+      "name": "kafka.properties.ssl.keystore.location",
+      "type": "java.lang.String",
+      "description": "Kafka SSL keystore location."
+    },
+    {
+      "name": "kafka.properties.ssl.keystore.password",
+      "type": "java.lang.String",
+      "description": "Kafka SSL keystore password."
+    },
+    {
+      "name": "kafka.properties.ssl.truststore.type",
+      "type": "java.lang.String",
+      "description": "Kafka SSL truststore type."
+    },
+    {
+      "name": "kafka.properties.ssl.truststore.location",
+      "type": "java.lang.String",
+      "description": "Kafka SSL truststore location."
+    },
+    {
+      "name": "kafka.properties.ssl.truststore.password",
+      "type": "java.lang.String",
+      "description": "Kafka SSL truststore password."
+    },
+    {
+      "name": "kafka.topics.eux-rina-case-events-v1",
+      "type": "java.lang.String",
+      "description": "Description for kafka.topics.eux-rina-case-events-v1."
+    },
+    {
+      "name": "no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.token-endpoint-url",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.token-endpoint-url."
+    },
+    {
+      "name": "no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.grant-type",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.grant-type."
+    },
+    {
+      "name": "no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.scope",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.scope."
+    },
+    {
+      "name": "no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.authentication.client-id",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.authentication.client-id."
+    },
+    {
+      "name": "no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.authentication.client-jwk",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.authentication.client-jwk."
+    },
+    {
+      "name": "no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.authentication.client-auth-method",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.client.registration.eux-rina-terminator-api-credentials.authentication.client-auth-method."
+    },
+    {
+      "name": "endpoint.eux-rina-terminator-api",
+      "type": "java.lang.String",
+      "description": "Description for endpoint.eux-rina-terminator-api."
+    },
+    {
+      "name": "no.nav.security.jwt.issuer.azuread.discoveryurl",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.issuer.azuread.discoveryurl."
+    },
+    {
+      "name": "no.nav.security.jwt.issuer.azuread.accepted-audience",
+      "type": "java.lang.String",
+      "description": "Description for no.nav.security.jwt.issuer.azuread.accepted-audience."
+    }
+  ]
+}

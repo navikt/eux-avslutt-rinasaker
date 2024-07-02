@@ -1,0 +1,79 @@
+kind: Application
+apiVersion: nais.io/v1alpha1
+metadata:
+  name: {{ name }}
+  namespace: eessibasis
+  labels:
+    team: eessibasis
+spec:
+  image: {{ image }}
+  ingresses:
+    - {{ ingress }}
+  gcp:
+    sqlInstances:
+      - type: POSTGRES_15
+        diskAutoresize: true
+        tier: {{ database.tier }}
+        databases:
+          - name: {{ database.name }}
+            envVarPrefix:
+              DATABASE
+  kafka:
+    pool: {{ kafka.pool }}
+  liveness:
+    path: /actuator/health
+    port: 8080
+    initialDelay: 40
+    timeout: 90
+  port: 8080
+  prometheus:
+    enabled: true
+    path: /actuator/prometheus
+  readiness:
+    path: /actuator/health
+    port: 8080
+    initialDelay: 40
+    timeout: 90
+  replicas:
+    min: 1
+    max: 2
+    cpuThresholdPercentage: 50
+  resources:
+    limits:
+      cpu: "1"
+      memory: 3072Mi
+    requests:
+      cpu: 900m
+      memory: 2048Mi
+  azure:
+    application:
+      enabled: true
+      allowAllUsers: true
+      replyURLs:
+        - "{{ ingress }}/callback"
+      claims:
+        extra:
+          - "NAVident"
+    sidecar:
+      enabled: true
+      autoLogin: true
+      autoLoginIgnorePaths:
+        - /api/**
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: java
+  accessPolicy:
+    outbound:
+      rules:
+        - application: {{ application.eux-rina-terminator-api.name }}
+  env:
+    - name: KAFKA_TOPICS_EUX_RINA_DOCUMENT_EVENTS_V1
+      value: {{ kafka.topics.eux-rina-document-events-v1 }}
+    - name: KAFKA_TOPICS_EUX_RINA_CASE_EVENTS_V1
+      value: {{ kafka.topics.eux-rina-case-events-v1 }}
+
+    - name: EUX_RINA_TERMINATOR_API_ENDPOINT
+      value: {{ application.eux-rina-terminator-api.endpoint }}
+    - name: EUX_RINA_TERMINATOR_API_SCOPE
+      value: {{ application.eux-rina-terminator-api.scope }}

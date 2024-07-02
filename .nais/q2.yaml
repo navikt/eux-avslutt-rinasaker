@@ -1,0 +1,22 @@
+name: eux-avslutt-rinasaker-q2
+ingress: https://eux-avslutt-rinasaker-q2.intern.dev.nav.no
+
+database:
+  name: eux-avslutt-rinasaker-db-q2
+  tier: db-f1-micro
+
+kafka:
+  pool: nav-dev
+  topics:
+    eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1-q2
+    eux-rina-case-events-v1: eessibasis.eux-rina-case-events-v1-q2
+
+cluster:
+  fss: dev-fss
+  gcp: dev-gcp
+
+application:
+  eux-rina-terminator-api:
+    name: eux-rina-terminator-api-q2
+    endpoint: http://eux-rina-terminator-api-q2
+    scope: api://dev-gcp.eessibasis.eux-rina-terminator-api-q2/.default
