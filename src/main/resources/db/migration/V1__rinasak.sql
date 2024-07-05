@@ -1,4 +1,4 @@
-CREATE TABLE rinasak_status
+CREATE TABLE rinasak
 (
     rinasak_status_uuid uuid primary key,
     rinasak_id          integer   not null,
@@ -9,5 +9,5 @@ CREATE TABLE rinasak_status
     endret_bruker       text      not null,
     endret_tidspunkt    timestamp not null
 );
-CREATE INDEX ON rinasak_status (status);
-CREATE UNIQUE INDEX ON rinasak_status (rinasak_id);
+CREATE INDEX ON rinasak (status);
+CREATE UNIQUE INDEX ON rinasak (rinasak_id);

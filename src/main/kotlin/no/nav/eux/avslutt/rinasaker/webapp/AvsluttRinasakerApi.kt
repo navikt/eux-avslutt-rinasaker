@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @Validated
 @RequestMapping("\${api.base-path:/api/v1}")
 @RestController
-class SlettUsendteRinasakerApi {
+class AvsluttRinasakerApi {
 
     val log = logger {}
 

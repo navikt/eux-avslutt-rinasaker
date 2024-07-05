@@ -4,12 +4,15 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
 import no.nav.eux.avslutt.rinasaker.service.mdc
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
+import no.nav.eux.avslutt.rinasaker.service.PopulerService
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service
 
 @Service
-class EuxRinaCaseEventsKafkaListener {
+class EuxRinaCaseEventsKafkaListener(
+    val populerService: PopulerService
+) {
 
     val log = logger {}
 
@@ -23,6 +26,10 @@ class EuxRinaCaseEventsKafkaListener {
         val processDefinitionName = consumerRecord.value().payLoad.restCase.processDefinitionName
         mdc(rinasakId = caseId, bucType = processDefinitionName)
         log.info { "Mottok rina case event" }
+        populerService.leggTilRinasak(
+            rinasakId = caseId,
+            bucType = processDefinitionName
+        )
     }
 
     @KafkaListener(
@@ -37,7 +44,7 @@ class EuxRinaCaseEventsKafkaListener {
         mdc(rinasakId = caseId, bucType = bucType)
         log.info { "Mottok rina document event" }
         when (documentEventType) {
-            "SENT_DOCUMENT" -> log.info { "Mottok documentEventType: $documentEventType"}
+            "SENT_DOCUMENT" -> log.info { "Mottok documentEventType: $documentEventType" }
             else -> log.info { "Mottok documentEventType, ignorerer: $documentEventType" }
         }
     }
