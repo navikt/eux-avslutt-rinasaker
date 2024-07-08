@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import no.nav.eux.avslutt.rinasaker.service.SettUvirksomService
 import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
 import no.nav.eux.avslutt.rinasaker.service.mdc
 import no.nav.security.token.support.core.api.Unprotected
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController
 @Validated
 @RequestMapping("\${api.base-path:/api/v1}")
 @RestController
-class AvsluttRinasakerApi {
+class AvsluttRinasakerApi(
+    val settUvirksomService: SettUvirksomService,
+) {
 
     val log = logger {}
 
@@ -64,8 +67,9 @@ class AvsluttRinasakerApi {
         @Parameter(
             description = """
                 Navnet på prosessen som skal startes:   
-                    * `til-sletting` - Markerer usendte rinasaker for sletting   
-                    * `slett` - Utfører sletting mot Rina
+                    * `sett-uvirksom` - Markerer rinasaker som uvirksomme   
+                    * `til-avslutning` - Sett rinasaker til avslutning
+                    * `avslutt' - Avslutter rinasaker
                     """,
             required = true
         )
@@ -76,7 +80,9 @@ class AvsluttRinasakerApi {
         mdc(prosess = prosess)
         log.info { "starter prosess..." }
         when (prosess) {
-            "til-sletting" -> log.info { "til-sletting" }
+            "sett-uvirksom" -> settUvirksomService.settRinasakerUvirksom()
+            "til-avslutning" -> log.info { "prosess ikke implementert" }
+            "avslutt" -> log.info { "prosess ikke implementert" }
             else -> {
                 log.error { "ukjent prosess: $prosess" }
                 return ResponseEntity(BAD_REQUEST)
