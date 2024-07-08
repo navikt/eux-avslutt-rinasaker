@@ -7,7 +7,7 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 
 fun kafkaRinaCase(rinasakId: Int) = KafkaRinaCase(
@@ -30,7 +30,7 @@ fun kafkaRinaDocument(
             versions = listOf(
                 KafkaRinaDocumentVersions(id = sedVersjon)
             ),
-            creationDate = LocalDateTime.parse("2021-06-01T12:00:00")
+            creationDate = OffsetDateTime.parse("2024-07-08T16:24:02+02")
         )
     )
 )
