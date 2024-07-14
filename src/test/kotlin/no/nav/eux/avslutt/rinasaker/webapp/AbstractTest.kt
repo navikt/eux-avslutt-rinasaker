@@ -1,6 +1,7 @@
 package no.nav.eux.avslutt.rinasaker.webapp
 
 import no.nav.eux.avslutt.rinasaker.Application
+import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status
 import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
 import no.nav.eux.avslutt.rinasaker.webapp.mock.RequestBodies
@@ -9,8 +10,11 @@ import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.test.web.client.exchange
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod.POST
 import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
@@ -19,6 +23,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
+import kotlin.test.assertEquals
 
 @ActiveProfiles("test")
 @SpringBootTest(
@@ -27,6 +32,7 @@ import org.testcontainers.utility.DockerImageName
 )
 @EnableMockOAuth2Server
 @Testcontainers
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 abstract class AbstractTest {
 
     companion object {
@@ -52,7 +58,7 @@ abstract class AbstractTest {
             registry.add("kafka.bootstrap-servers", kafka::getBootstrapServers)
             registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers)
         }
-    }
+ }
 
     val <T> T.httpEntity: HttpEntity<T>
         get() = httpEntity(mockOAuth2Server)
@@ -76,4 +82,23 @@ abstract class AbstractTest {
 
     @Autowired
     lateinit var requestBodies: RequestBodies
+
+    fun execute(prosess: String) {
+        restTemplate
+            .exchange<Void>(
+                "/api/v1/prosesser/$prosess/execute",
+                POST,
+                httpEntity()
+            )
+    }
+
+    infix fun Int.er(expected: Status) {
+        assertEquals(
+            actual = rinasakRepository.findByRinasakId(this)?.status,
+            expected = expected,
+        )
+    }
+
+    infix fun String.send(topic: Any) =
+        kafkaTemplate.send(this, topic)
 }

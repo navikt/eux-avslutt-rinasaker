@@ -1,8 +1,10 @@
 package no.nav.eux.avslutt.rinasaker.webapp
 
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.NY_SAK
-import no.nav.eux.avslutt.rinasaker.webapp.dataset.kafkaRinaCase
-import no.nav.eux.avslutt.rinasaker.webapp.dataset.kafkaRinaDocument
+import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.UVIRKSOM
+import no.nav.eux.avslutt.rinasaker.webapp.common.kafkaTopicRinaCaseEvents
+import no.nav.eux.avslutt.rinasaker.webapp.common.kafkaTopicRinaDocumentEvents
+import no.nav.eux.avslutt.rinasaker.webapp.dataset.*
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.awaitility.kotlin.has
@@ -12,31 +14,61 @@ import org.junit.jupiter.api.Test
 class SlettUsendteRinasakerTest : AbstractTest() {
 
     @Test
-    fun `Nye rinasaker og dokumenter fra Kafka - sletting staged og eksekvert`() {
+    fun `Nye rinasaker og dokumenter fra Kafka - avslutning staged og eksekvert`() {
+        isRunning()
+        lagSaker()
+        verifiserSakerOpprettet()
+        lagDokumenter()
+        verifiserDokumenterOpprettet()
+        manipulerOpprettetTidspunkt()
+        execute(prosess = "sett-uvirksom")
+        verifiserVirksom()
+    }
+
+    fun isRunning() {
         assertThat(kafka.isRunning).isTrue
         assertThat(postgres.isRunning).isTrue
-        kafkaTemplate.send("eessibasis.eux-rina-case-events-v1", kafkaRinaCase(1))
-        kafkaTemplate.send("eessibasis.eux-rina-case-events-v1", kafkaRinaCase(2))
-        kafkaTemplate.send("eessibasis.eux-rina-case-events-v1", kafkaRinaCase(3))
-        kafkaTemplate.send("eessibasis.eux-rina-case-events-v1", kafkaRinaCase(4))
-        kafkaTemplate.send("eessibasis.eux-rina-case-events-v1", kafkaRinaCase(5))
+    }
+
+    fun lagSaker() {
+        kafkaTopicRinaCaseEvents send fbBuc01UvirksomSisteSedF002_case
+        kafkaTopicRinaCaseEvents send fbBuc01UvirksomSisteSedIkkeF002_case
+        kafkaTopicRinaCaseEvents send fbBuc01VirksomSisteSedF002_case
+    }
+
+    fun verifiserSakerOpprettet() {
         await untilCallTo {
-            rinasakRepository.findAllByStatus(NY_SAK)
+            rinasakRepository.findAll()
         } has {
-            size == 5
+            size == 3
         }
-        kafkaTemplate.send("eessibasis.eux-rina-document-events-v1", kafkaRinaDocument(rinasakId = 1, sedVersjon = 1))
-        kafkaTemplate.send("eessibasis.eux-rina-document-events-v1", kafkaRinaDocument(rinasakId = 2, sedVersjon = 2))
+    }
+
+    fun lagDokumenter() {
+        kafkaTopicRinaDocumentEvents send fbBuc01UvirksomSisteSedF002_sed
+        kafkaTopicRinaDocumentEvents send fbBuc01UvirksomSisteSedIkkeF002_sed
+        kafkaTopicRinaDocumentEvents send fbBuc01VirksomSisteSedF002_sed1
+        kafkaTopicRinaDocumentEvents send fbBuc01VirksomSisteSedF002_sed2
+    }
+
+    fun verifiserDokumenterOpprettet() {
         await untilCallTo {
-            dokumentRepository.findByRinasakId(1)
+            dokumentRepository.findAll()
         } has {
-            size == 1
+            size == 4
         }
-        await untilCallTo {
-            dokumentRepository.findByRinasakId(2)
-        } has {
-            size == 1
-        }
+    }
+
+    fun manipulerOpprettetTidspunkt() {
+        dokumentRepository.case1_manipulerOpprettetTidspunkt()
+        dokumentRepository.case2_manipulerOpprettetTidspunkt()
+        dokumentRepository.case3_manipulerOpprettetTidspunkt()
+    }
+
+    fun verifiserVirksom() {
+        1 er UVIRKSOM
+        2 er UVIRKSOM
+        3 er NY_SAK
     }
 
 }
