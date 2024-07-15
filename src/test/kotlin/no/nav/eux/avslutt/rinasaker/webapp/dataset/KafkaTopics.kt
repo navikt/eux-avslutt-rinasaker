@@ -15,7 +15,7 @@ fun kafkaRinaCase(rinasakId: Int) = KafkaRinaCase(
             id = rinasakId,
             processDefinitionName = "H_BUC_01",
             whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
-            creator = KafkaRinaCaseRestCaseCreator(id = "NO:NAVAT06")
+            creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:NAVAT06"))
         )
     )
 )

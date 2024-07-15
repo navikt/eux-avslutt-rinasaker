@@ -20,7 +20,7 @@ val fbBuc01VirksomSisteSedF002_case = KafkaRinaCase(
             id = 3,
             processDefinitionName = "F_BUC_01",
             whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
-            creator = KafkaRinaCaseRestCaseCreator(id = "NO:NAVAT06")
+            creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:NAVAT06"))
         )
     )
 )

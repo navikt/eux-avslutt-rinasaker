@@ -33,7 +33,7 @@ class EuxRinaCaseEventsKafkaListener(
             erSakseier = restCase.erSakseier,
         )
         log.info { "Mottok rina case event" }
-        log.info { "I am ${restCase.whoami.id}, you are ${restCase.creator.id}" }
+        log.info { "I am ${restCase.whoami.id}, you are ${restCase.creator.organisation.id}" }
         populerService.leggTilRinasak(
             rinasakId = restCase.id,
             bucType = restCase.processDefinitionName,
@@ -67,7 +67,7 @@ class EuxRinaCaseEventsKafkaListener(
     }
 }
 
-val KafkaRinaCaseRestCase.erSakseier get(): Boolean = whoami.id == creator.id
+val KafkaRinaCaseRestCase.erSakseier get(): Boolean = whoami.id == creator.organisation.id
 
 fun uuid(uuidWithoutDash: String): UUID =
     fromString(uuidString(uuidWithoutDash = uuidWithoutDash))

@@ -18,7 +18,7 @@ val fbBuc01UvirksomSisteSedF002IkkeSakseier_case = KafkaRinaCase(
             id = 4,
             processDefinitionName = "F_BUC_01",
             whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
-            creator = KafkaRinaCaseRestCaseCreator(id = "NO:not-me")
+            creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:not-me"))
         )
     )
 )

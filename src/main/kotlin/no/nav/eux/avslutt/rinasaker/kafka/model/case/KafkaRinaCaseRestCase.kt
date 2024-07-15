@@ -12,5 +12,9 @@ data class KafkaRinaCaseRestCaseWhoami(
 )
 
 data class KafkaRinaCaseRestCaseCreator(
+    val organisation: KafkaRinaCaseRestCaseCreatorOrganisation
+)
+
+data class KafkaRinaCaseRestCaseCreatorOrganisation(
     val id: String
 )
