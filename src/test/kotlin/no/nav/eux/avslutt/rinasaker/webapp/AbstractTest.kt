@@ -7,6 +7,7 @@ import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
 import no.nav.eux.avslutt.rinasaker.webapp.mock.RequestBodies
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
+import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -101,4 +102,13 @@ abstract class AbstractTest {
 
     infix fun String.send(topic: Any) =
         kafkaTemplate.send(this, topic)
+
+    fun skrivUtEksterneKall() {
+        println("Følgende requests ble utført i prosessen:")
+        requestBodies.forEach { println("Path: ${it.key}, body: ${it.value}") }
+    }
+
+    fun verifiserEksekvert(uri: String) {
+        assertThat(requestBodies[uri]).isNotNull()
+    }
 }

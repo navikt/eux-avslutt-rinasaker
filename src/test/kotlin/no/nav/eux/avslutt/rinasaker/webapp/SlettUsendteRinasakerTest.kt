@@ -24,6 +24,10 @@ class SlettUsendteRinasakerTest : AbstractTest() {
         verifiserVirksomStatus()
         execute(prosess = "til-avslutning")
         verifiserTilAvslutningStatus()
+        execute(prosess = "avslutt")
+        verifiserAvsluttStatus()
+        verifiserAvsluttKall()
+        skrivUtEksterneKall()
     }
 
     fun isRunning() {
@@ -81,6 +85,17 @@ class SlettUsendteRinasakerTest : AbstractTest() {
         2 er OPPRETT_OPPGAVE
         3 er NY_SAK
         4 er AVSLUTTES_AV_MOTPART
+    }
+
+    fun verifiserAvsluttStatus() {
+        1 er AVSLUTTET_GLOBALT
+        2 er OPPRETT_OPPGAVE
+        3 er NY_SAK
+        4 er AVSLUTTES_AV_MOTPART
+    }
+
+    fun verifiserAvsluttKall() {
+        verifiserEksekvert("/api/v1/rinasaker/1/avsluttGlobalt")
     }
 
 }

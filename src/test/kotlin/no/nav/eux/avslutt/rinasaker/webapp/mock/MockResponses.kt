@@ -19,6 +19,8 @@ fun mockResponsePost(request: RecordedRequest, body: String) =
     when (request.uriEndsWith) {
         "/oauth2/v2.0/token" -> tokenResponse()
         "/api/v1/journalposter/settStatusAvbryt" -> response204()
+        "/api/v1/rinasaker/1/avsluttGlobalt" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/2/avsluttLokalt" -> getEuxRinaTerminatorApiNoContent()
         else -> defaultResponse()
     }
 

@@ -4,6 +4,12 @@ import okhttp3.mockwebserver.MockResponse
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
+fun getEuxRinaTerminatorApiNoContent() =
+    MockResponse().apply {
+        setResponseCode(204)
+        setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+    }
+
 fun getEuxRinaTerminatorApiStatusResponseTrue() =
     MockResponse().apply {
         setResponseCode(200)

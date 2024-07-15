@@ -4,10 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import no.nav.eux.avslutt.rinasaker.service.SettUvirksomService
-import no.nav.eux.avslutt.rinasaker.service.TilAvslutningService
-import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
-import no.nav.eux.avslutt.rinasaker.service.mdc
+import no.nav.eux.avslutt.rinasaker.service.*
 import no.nav.security.token.support.core.api.Unprotected
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -24,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AvsluttRinasakerApi(
     val settUvirksomService: SettUvirksomService,
-    val settTilAvslutningService: TilAvslutningService
+    val settTilAvslutningService: TilAvslutningService,
+    val avsluttService: AvsluttService,
 ) {
 
     val log = logger {}
@@ -84,7 +82,7 @@ class AvsluttRinasakerApi(
         when (prosess) {
             "sett-uvirksom" -> settUvirksomService.settRinasakerUvirksom()
             "til-avslutning" -> settTilAvslutningService.settRinasakerTilAvslutning()
-            "avslutt" -> log.info { "prosess ikke implementert" }
+            "avslutt" -> avsluttService.avsluttRinasaker()
             "lag-oppgave" -> log.info { "prosess ikke implementert" }
             else -> {
                 log.error { "ukjent prosess: $prosess" }
