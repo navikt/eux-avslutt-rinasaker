@@ -33,6 +33,7 @@ class EuxRinaCaseEventsKafkaListener(
             erSakseier = restCase.erSakseier,
         )
         log.info { "Mottok rina case event" }
+        log.info { "I am ${restCase.whoami.id}, you are ${restCase.creator.id}" }
         populerService.leggTilRinasak(
             rinasakId = restCase.id,
             bucType = restCase.processDefinitionName,
