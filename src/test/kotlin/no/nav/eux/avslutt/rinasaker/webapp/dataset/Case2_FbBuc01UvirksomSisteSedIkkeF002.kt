@@ -1,8 +1,6 @@
 package no.nav.eux.avslutt.rinasaker.webapp.dataset
 
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCasePayload
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
+import no.nav.eux.avslutt.rinasaker.kafka.model.case.*
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
@@ -18,7 +16,9 @@ val fbBuc01UvirksomSisteSedIkkeF002_case = KafkaRinaCase(
     payLoad = KafkaRinaCasePayload(
         KafkaRinaCaseRestCase(
             id = 2,
-            processDefinitionName = "F_BUC_01"
+            processDefinitionName = "F_BUC_01",
+            whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
+            creator = KafkaRinaCaseRestCaseCreator(id = "NO:NAVAT06")
         )
     )
 )

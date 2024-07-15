@@ -1,8 +1,6 @@
 package no.nav.eux.avslutt.rinasaker.webapp.dataset
 
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCasePayload
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
+import no.nav.eux.avslutt.rinasaker.kafka.model.case.*
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
@@ -12,7 +10,14 @@ import java.time.OffsetDateTime
 
 fun kafkaRinaCase(rinasakId: Int) = KafkaRinaCase(
     caseEventType = "OPEN_CASE",
-    payLoad = KafkaRinaCasePayload(KafkaRinaCaseRestCase(rinasakId, "H_BUC_01"))
+    payLoad = KafkaRinaCasePayload(
+        KafkaRinaCaseRestCase(
+            id = rinasakId,
+            processDefinitionName = "H_BUC_01",
+            whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
+            creator = KafkaRinaCaseRestCaseCreator(id = "NO:NAVAT06")
+        )
+    )
 )
 
 fun kafkaRinaDocument(

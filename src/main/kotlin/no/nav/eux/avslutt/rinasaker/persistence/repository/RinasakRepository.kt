@@ -16,7 +16,8 @@ interface RinasakRepository : JpaRepository<Rinasak, UUID> {
         opprettetTidspunkt: LocalDateTime
     ): List<Rinasak>
 
-    fun findAllByStatus(
-        status: Rinasak.Status
+    fun findAllByStatusAndBucType(
+        status: Rinasak.Status,
+        bucType: String
     ): List<Rinasak>
 }

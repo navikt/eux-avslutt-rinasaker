@@ -14,6 +14,8 @@ interface DokumentRepository : JpaRepository<Dokument, UUID> {
     fun findByRinasakId(rinasakId: Int): List<Dokument>?
     fun findBySedIdAndSedVersjon(sedId: UUID, sedVersjon: Int): Dokument?
 
+    fun findFirstByRinasakIdOrderByOpprettetTidspunktDesc(rinasakId: Int): Dokument?
+
     @Query(
         value = """
         select * from (

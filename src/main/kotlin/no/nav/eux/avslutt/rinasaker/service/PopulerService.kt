@@ -21,11 +21,12 @@ class PopulerService(
     fun leggTilRinasak(
         rinasakId: Int,
         bucType: String,
+        erSakseier: Boolean,
     ) {
         val status = rinasakRepository
             .findByRinasakId(rinasakId)
             ?.copy(endretTidspunkt = now())
-            ?: rinasak(rinasakId, bucType, NY_SAK)
+            ?: rinasak(rinasakId, bucType, erSakseier, NY_SAK)
         rinasakRepository.save(status)
         log.info { "Sak oppdatert eller lagt til" }
     }
@@ -48,12 +49,14 @@ class PopulerService(
 fun rinasak(
     rinasakId: Int,
     bucType: String,
+    erSakseier: Boolean,
     status: Rinasak.Status
 ) = Rinasak(
     rinasakStatusUuid = UUID.randomUUID(),
     rinasakId = rinasakId,
     status = status,
-    bucType = bucType
+    bucType = bucType,
+    erSakseier = erSakseier
 )
 
 fun dokument(

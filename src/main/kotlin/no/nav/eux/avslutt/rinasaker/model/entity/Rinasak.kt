@@ -16,6 +16,7 @@ data class Rinasak(
     @Enumerated(STRING)
     val status: Status,
     val bucType: String,
+    val erSakseier: Boolean,
     val opprettetBruker: String = "ukjent",
     val opprettetTidspunkt: LocalDateTime = now(),
     val endretBruker: String = "ukjent",
@@ -27,10 +28,12 @@ data class Rinasak(
         UVIRKSOM,
         TIL_AVSLUTNING_GLOBALT,
         TIL_AVSLUTNING_LOKALT,
+        TIL_AVSLUTNING_MANUELT,
         OPPRETT_OPPGAVE,
         AVSLUTTET_GLOBALT,
         AVSLUTTET_LOKALT,
         OPPGAVE_OPPRETTET,
-        KAN_IKKE_AVSLUTTES
+        KAN_IKKE_AVSLUTTES,
+        AVSLUTTES_AV_MOTPART
     }
 }

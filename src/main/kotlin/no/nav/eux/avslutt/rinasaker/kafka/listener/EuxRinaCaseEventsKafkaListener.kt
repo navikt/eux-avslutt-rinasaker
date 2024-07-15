@@ -2,8 +2,10 @@ package no.nav.eux.avslutt.rinasaker.kafka.listener
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
+import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.service.PopulerService
+import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
 import no.nav.eux.avslutt.rinasaker.service.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
@@ -24,14 +26,19 @@ class EuxRinaCaseEventsKafkaListener(
         containerFactory = "rinaCaseKafkaListenerContainerFactory"
     )
     fun case(consumerRecord: ConsumerRecord<String, KafkaRinaCase>) {
-        val caseId = consumerRecord.value().payLoad.restCase.id
-        val processDefinitionName = consumerRecord.value().payLoad.restCase.processDefinitionName
-        mdc(rinasakId = caseId, bucType = processDefinitionName)
+        val restCase = consumerRecord.value().payLoad.restCase
+        mdc(
+            rinasakId = restCase.id,
+            bucType = restCase.processDefinitionName,
+            erSakseier = restCase.erSakseier,
+        )
         log.info { "Mottok rina case event" }
         populerService.leggTilRinasak(
-            rinasakId = caseId,
-            bucType = processDefinitionName
+            rinasakId = restCase.id,
+            bucType = restCase.processDefinitionName,
+            erSakseier = restCase.erSakseier
         )
+        clearLocalMdc()
     }
 
     @KafkaListener(
@@ -55,8 +62,11 @@ class EuxRinaCaseEventsKafkaListener(
             sedVersjon = consumerRecord.value().payLoad.documentMetadata.versions.first().id,
             sedType = consumerRecord.value().payLoad.documentMetadata.type
         )
+        clearLocalMdc()
     }
 }
+
+val KafkaRinaCaseRestCase.erSakseier get(): Boolean = whoami.id == creator.id
 
 fun uuid(uuidWithoutDash: String): UUID =
     fromString(uuidString(uuidWithoutDash = uuidWithoutDash))

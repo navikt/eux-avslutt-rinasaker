@@ -6,6 +6,7 @@ import java.util.*
 fun <T> T.mdc(
     prosess: String? = null,
     rinasakId: Int? = null,
+    erSakseier: Boolean? = null,
     dokumentInfoId: String? = null,
     sedId: UUID? = null,
     sedVersjon: Int? = null,
@@ -15,6 +16,7 @@ fun <T> T.mdc(
 ): T {
     "prosess" leggTil prosess
     "rinasakId" leggTil rinasakId
+    "erSakseier" leggTil erSakseier
     "dokumentInfoId" leggTil dokumentInfoId
     "sedId" leggTil sedId
     "sedVersjon" leggTil sedVersjon
@@ -26,36 +28,14 @@ fun <T> T.mdc(
 
 fun clearLocalMdc() {
     MDC.remove("prosess")
-    MDC.remove("rinaSakId")
+    MDC.remove("rinasakId")
+    MDC.remove("erSakseier")
     MDC.remove("dokumentInfoId")
     MDC.remove("sedId")
     MDC.remove("sedVersjon")
     MDC.remove("sedType")
     MDC.remove("bucType")
     MDC.remove("journalpostId")
-}
-
-fun <T> T.setAndClearLocalMdc(
-    prosess: String? = null,
-    rinasakId: Int? = null,
-    dokumentInfoId: String? = null,
-    sedId: UUID? = null,
-    sedVersjon: Int? = null,
-    sedType : String? = null,
-    bucType : String? = null,
-    journalpostId: String? = null,
-) {
-    clearLocalMdc()
-    mdc(
-        prosess = prosess,
-        rinasakId = rinasakId,
-        dokumentInfoId = dokumentInfoId,
-        sedId = sedId,
-        sedVersjon = sedVersjon,
-        sedType = sedType,
-        bucType = bucType,
-        journalpostId = journalpostId
-    )
 }
 
 private infix fun String.leggTil(value: Any?) {

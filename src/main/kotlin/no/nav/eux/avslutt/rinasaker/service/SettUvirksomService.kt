@@ -24,9 +24,10 @@ class SettUvirksomService(
     }
 
     fun Buc.settUvirksom() {
+        mdc(bucType = navn)
         val date = now().minusDays(antallDagerBeforeUvirksom)
         val uvirksommeDokumenter = dokumentRepository.findDokumenterBeforeDate(date, NY_SAK)
-        log.info { "$navn har ${uvirksommeDokumenter.size} uvirksomme dokumenter" }
+        log.info { "$navn har ${uvirksommeDokumenter.size} uvirksomme saker" }
         uvirksommeDokumenter.forEach { it.settUvirksom() }
     }
 
@@ -47,7 +48,6 @@ class SettUvirksomService(
             endretTidspunkt = now()
         )
         rinasakRepository.save(oppdatertRinasak)
-        log.info { "${rinasak.rinasakId} satt til uvirksom" }
+        log.info { "${rinasak.rinasakId} satt til uvirksom buc: ${rinasak.bucType}" }
     }
 }
-

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import no.nav.eux.avslutt.rinasaker.service.SettUvirksomService
+import no.nav.eux.avslutt.rinasaker.service.TilAvslutningService
 import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
 import no.nav.eux.avslutt.rinasaker.service.mdc
 import no.nav.security.token.support.core.api.Unprotected
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AvsluttRinasakerApi(
     val settUvirksomService: SettUvirksomService,
+    val settTilAvslutningService: TilAvslutningService
 ) {
 
     val log = logger {}
@@ -81,8 +83,9 @@ class AvsluttRinasakerApi(
         log.info { "starter prosess..." }
         when (prosess) {
             "sett-uvirksom" -> settUvirksomService.settRinasakerUvirksom()
-            "til-avslutning" -> log.info { "prosess ikke implementert" }
+            "til-avslutning" -> settTilAvslutningService.settRinasakerTilAvslutning()
             "avslutt" -> log.info { "prosess ikke implementert" }
+            "lag-oppgave" -> log.info { "prosess ikke implementert" }
             else -> {
                 log.error { "ukjent prosess: $prosess" }
                 return ResponseEntity(BAD_REQUEST)
