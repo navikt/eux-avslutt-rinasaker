@@ -16,7 +16,7 @@ val fbBuc01UvirksomSisteSedF002IkkeSakseier_case = KafkaRinaCase(
     payLoad = KafkaRinaCasePayload(
         KafkaRinaCaseRestCase(
             id = 4,
-            processDefinitionName = "F_BUC_01",
+            processDefinitionName = "FB_BUC_01",
             whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
             creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:not-me"))
         )
@@ -25,7 +25,7 @@ val fbBuc01UvirksomSisteSedF002IkkeSakseier_case = KafkaRinaCase(
 
 val fbBuc01UvirksomSisteSedF002IkkeSakseier_sed = KafkaRinaDocument(
     documentEventType = "SENT_DOCUMENT",
-    buc = "F_BUC_01",
+    buc = "FB_BUC_01",
     payLoad = KafkaRinaDocumentPayload(
         KafkaRinaDocumentMetadata(
             id = "00000000000000000000000000000005",

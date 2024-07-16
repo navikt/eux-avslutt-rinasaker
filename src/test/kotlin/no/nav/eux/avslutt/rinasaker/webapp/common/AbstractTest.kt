@@ -1,4 +1,4 @@
-package no.nav.eux.avslutt.rinasaker.webapp
+package no.nav.eux.avslutt.rinasaker.webapp.common
 
 import no.nav.eux.avslutt.rinasaker.Application
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status

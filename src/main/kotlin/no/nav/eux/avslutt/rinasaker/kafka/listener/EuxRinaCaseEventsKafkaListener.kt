@@ -33,7 +33,6 @@ class EuxRinaCaseEventsKafkaListener(
             erSakseier = restCase.erSakseier,
         )
         log.info { "Mottok rina case event" }
-        log.info { "I am ${restCase.whoami.id}, you are ${restCase.creator.organisation.id}" }
         populerService.leggTilRinasak(
             rinasakId = restCase.id,
             bucType = restCase.processDefinitionName,
@@ -48,9 +47,11 @@ class EuxRinaCaseEventsKafkaListener(
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
     )
     fun document(consumerRecord: ConsumerRecord<String, KafkaRinaDocument>) {
-        val documentEventType = consumerRecord.value().documentEventType
-        val caseId = consumerRecord.value().payLoad.documentMetadata.caseId
-        val bucType = consumerRecord.value().buc
+        val kafkaRinaDocument = consumerRecord.value()
+        val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
+        val documentEventType = kafkaRinaDocument.documentEventType
+        val caseId = documentMetadata.caseId
+        val bucType = kafkaRinaDocument.buc
         mdc(rinasakId = caseId, bucType = bucType)
         log.info { "Mottok rina document event" }
         when (documentEventType) {
@@ -59,9 +60,9 @@ class EuxRinaCaseEventsKafkaListener(
         }
         populerService.leggTilDokument(
             rinasakId = caseId,
-            sedId = uuid(consumerRecord.value().payLoad.documentMetadata.id),
-            sedVersjon = consumerRecord.value().payLoad.documentMetadata.versions.first().id,
-            sedType = consumerRecord.value().payLoad.documentMetadata.type
+            sedId = uuid(documentMetadata.id),
+            sedVersjon = documentMetadata.versions.first().id,
+            sedType = documentMetadata.type
         )
         clearLocalMdc()
     }

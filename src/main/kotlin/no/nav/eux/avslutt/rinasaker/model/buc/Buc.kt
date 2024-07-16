@@ -1,6 +1,7 @@
 package no.nav.eux.avslutt.rinasaker.model.buc
 
 import no.nav.eux.avslutt.rinasaker.model.buc.BucAvsluttScope.GLOBALT
+import no.nav.eux.avslutt.rinasaker.model.buc.BucAvsluttScope.LOKALT
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 
 data class Buc(
@@ -20,18 +21,25 @@ enum class BucAvsluttScope(
 
 val bucList = listOf(
     Buc(
-        navn = "F_BUC_01",
+        navn = "FB_BUC_01",
         antallDagerBeforeUvirksom = 90,
         sisteSedForAvslutningAutomatisk = "F002",
         kreverSakseier = true,
         bucAvsluttScope = GLOBALT,
     ),
     Buc(
-        navn = "F_BUC_02",
+        navn = "FB_BUC_02",
         antallDagerBeforeUvirksom = 90,
         sisteSedForAvslutningAutomatisk = "F017",
         kreverSakseier = true,
         bucAvsluttScope = GLOBALT,
+    ),
+    Buc(
+        navn = "FB_BUC_04",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = "F003",
+        kreverSakseier = false,
+        bucAvsluttScope = LOKALT,
     ),
 )
 

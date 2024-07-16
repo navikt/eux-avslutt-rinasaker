@@ -5,37 +5,42 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
+import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
+import no.nav.eux.avslutt.rinasaker.webapp.common.dagerUvirksom
+import no.nav.eux.avslutt.rinasaker.webapp.common.uuid6
+import java.time.LocalDateTime.now
 import java.time.OffsetDateTime
 
-
-fun kafkaRinaCase(rinasakId: Int) = KafkaRinaCase(
+val fbBuc04UvirksomSisteSedF003_case = KafkaRinaCase(
     caseEventType = "OPEN_CASE",
     payLoad = KafkaRinaCasePayload(
         KafkaRinaCaseRestCase(
-            id = rinasakId,
-            processDefinitionName = "H_BUC_01",
+            id = 5,
+            processDefinitionName = "FB_BUC_04",
             whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
             creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:NAVAT06"))
         )
     )
 )
 
-fun kafkaRinaDocument(
-    sedId: String = "eb172665832f402794a6946e7efcd0f2",
-    sedVersjon: Int = 1,
-    rinasakId: Int = 1
-) = KafkaRinaDocument(
+val fbBuc04UvirksomSisteSedF003_sed = KafkaRinaDocument(
     documentEventType = "SENT_DOCUMENT",
-    buc = "H_BUC_01",
+    buc = "FB_BUC_04",
     payLoad = KafkaRinaDocumentPayload(
         KafkaRinaDocumentMetadata(
-            id = sedId,
-            type = "H001",
-            caseId = rinasakId,
+            id = "00000000000000000000000000000006",
+            type = "F003",
+            caseId = 5,
             versions = listOf(
-                KafkaRinaDocumentVersions(id = sedVersjon)
+                KafkaRinaDocumentVersions(id = 1)
             ),
             creationDate = OffsetDateTime.parse("2024-07-08T16:24:02+02")
         )
     )
 )
+
+fun DokumentRepository.case5_manipulerOpprettetTidspunkt() {
+    val dokument = findBySedIdAndSedVersjon(uuid6, 1)!!
+        .copy(opprettetTidspunkt = now().minusDays(dagerUvirksom))
+    save(dokument)
+}

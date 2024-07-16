@@ -1,4 +1,4 @@
-package no.nav.eux.avslutt.rinasaker.webapp
+package no.nav.eux.avslutt.rinasaker.webapp.common
 
 import com.nimbusds.jose.JOSEObjectType
 import no.nav.security.mock.oauth2.MockOAuth2Server

@@ -18,7 +18,7 @@ val fbBuc01VirksomSisteSedF002_case = KafkaRinaCase(
     payLoad = KafkaRinaCasePayload(
         KafkaRinaCaseRestCase(
             id = 3,
-            processDefinitionName = "F_BUC_01",
+            processDefinitionName = "FB_BUC_01",
             whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
             creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:NAVAT06"))
         )
@@ -27,7 +27,7 @@ val fbBuc01VirksomSisteSedF002_case = KafkaRinaCase(
 
 val fbBuc01VirksomSisteSedF002_sed1 = KafkaRinaDocument(
     documentEventType = "SENT_DOCUMENT",
-    buc = "F_BUC_01",
+    buc = "FB_BUC_01",
     payLoad = KafkaRinaDocumentPayload(
         KafkaRinaDocumentMetadata(
             id = "00000000000000000000000000000003",
@@ -43,7 +43,7 @@ val fbBuc01VirksomSisteSedF002_sed1 = KafkaRinaDocument(
 
 val fbBuc01VirksomSisteSedF002_sed2 = KafkaRinaDocument(
     documentEventType = "SENT_DOCUMENT",
-    buc = "F_BUC_01",
+    buc = "FB_BUC_01",
     payLoad = KafkaRinaDocumentPayload(
         KafkaRinaDocumentMetadata(
             id = "00000000000000000000000000000004",
