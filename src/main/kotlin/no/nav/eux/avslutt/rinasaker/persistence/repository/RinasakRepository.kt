@@ -11,13 +11,14 @@ interface RinasakRepository : JpaRepository<Rinasak, UUID> {
 
     fun findByRinasakId(rinasakId: Int): Rinasak?
 
-    fun findAllByStatusAndOpprettetTidspunktBefore(
-        status: Rinasak.Status,
-        opprettetTidspunkt: LocalDateTime
-    ): List<Rinasak>
-
     fun findAllByStatusAndBucType(
         status: Rinasak.Status,
         bucType: String
+    ): List<Rinasak>
+
+    fun findAllByStatusAndBucTypeAndEndretTidspunktBefore(
+        status: Rinasak.Status,
+        bucType: String,
+        endretTidspunkt: LocalDateTime
     ): List<Rinasak>
 }

@@ -31,4 +31,13 @@ class EuxRinaTerminatorApiClient(
             .toBodilessEntity()
         log.info { "Avsluttet $rinasakId lokalt" }
     }
+
+    fun arkiver(rinasakId: Int) {
+        euxRinaTerminatorApiRestTemplate
+            .post()
+            .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/arkiver")
+            .retrieve()
+            .toBodilessEntity()
+        log.info { "Arkiverte rinasak $rinasakId" }
+    }
 }

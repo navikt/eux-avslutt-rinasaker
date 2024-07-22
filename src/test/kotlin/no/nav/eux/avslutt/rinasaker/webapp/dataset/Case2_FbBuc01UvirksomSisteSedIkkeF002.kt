@@ -6,6 +6,8 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetada
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
 import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
+import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
+import no.nav.eux.avslutt.rinasaker.webapp.common.dagerArkivering
 import no.nav.eux.avslutt.rinasaker.webapp.common.dagerUvirksom
 import no.nav.eux.avslutt.rinasaker.webapp.common.uuid2
 import java.time.LocalDateTime.now
@@ -42,5 +44,11 @@ val fbBuc01UvirksomSisteSedIkkeF002_sed = KafkaRinaDocument(
 fun DokumentRepository.case2_manipulerOpprettetTidspunkt() {
     val dokument = findBySedIdAndSedVersjon(uuid2, 1)!!
         .copy(opprettetTidspunkt = now().minusDays(dagerUvirksom))
+    save(dokument)
+}
+
+fun RinasakRepository.case2_manipulerEndretTidspunktArkivering() {
+    val dokument = findByRinasakId(2)!!
+        .copy(endretTidspunkt = now().minusDays(dagerArkivering))
     save(dokument)
 }

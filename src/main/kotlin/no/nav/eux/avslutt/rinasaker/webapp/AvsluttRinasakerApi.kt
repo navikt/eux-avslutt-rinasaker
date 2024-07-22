@@ -23,6 +23,8 @@ class AvsluttRinasakerApi(
     val settUvirksomService: SettUvirksomService,
     val settTilAvslutningService: TilAvslutningService,
     val avsluttService: AvsluttService,
+    val arkiverService: ArkiverService,
+    val tilArkiveringService: TilArkiveringService,
 ) {
 
     val log = logger {}
@@ -70,6 +72,9 @@ class AvsluttRinasakerApi(
                     * `sett-uvirksom` - Markerer rinasaker som uvirksomme   
                     * `til-avslutning` - Sett rinasaker til avslutning
                     * `avslutt' - Avslutter rinasaker
+                    * `lag-oppgave` - Lager oppgave for manuell avslutning av rinasaker
+                    * `til-arkivering` - Setter rinasaker til arkivering
+                    * `arkiver` - Arkiverer rinasaker
                     """,
             required = true
         )
@@ -83,7 +88,9 @@ class AvsluttRinasakerApi(
             "sett-uvirksom" -> settUvirksomService.settRinasakerUvirksom()
             "til-avslutning" -> settTilAvslutningService.settRinasakerTilAvslutning()
             "avslutt" -> avsluttService.avsluttRinasaker()
-            "lag-oppgave" -> log.info { "prosess ikke implementert" }
+            "lag-oppgave" -> log.warn { "prosess ikke implementert" }
+            "til-arkivering" -> tilArkiveringService.settRinasakerTilArkivering()
+            "arkiver" -> arkiverService.arkiverRinasaker()
             else -> {
                 log.error { "ukjent prosess: $prosess" }
                 return ResponseEntity(BAD_REQUEST)

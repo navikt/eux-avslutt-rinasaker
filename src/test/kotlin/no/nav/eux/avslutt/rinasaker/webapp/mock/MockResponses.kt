@@ -21,6 +21,8 @@ fun mockResponsePost(request: RecordedRequest, body: String) =
         "/api/v1/journalposter/settStatusAvbryt" -> response204()
         "/api/v1/rinasaker/1/avsluttGlobalt" -> getEuxRinaTerminatorApiNoContent()
         "/api/v1/rinasaker/5/avsluttLokalt" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/1/arkiver" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/5/arkiver" -> getEuxRinaTerminatorApiNoContent()
         else -> defaultResponse()
     }
 

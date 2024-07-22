@@ -29,6 +29,15 @@ class SlettUsendteRinasakerTest : AbstractTest() {
         verifiserAvsluttStatus()
         verifiserAvsluttKall()
         skrivUtEksterneKall()
+        execute(prosess = "til-arkivering")
+        execute(prosess = "arkiver")
+        verifiserAvsluttStatus()
+        manipulerEndretTidspunktArkivering()
+        execute(prosess = "til-arkivering")
+        verifiserTilArkiveringStatus()
+        execute(prosess = "arkiver")
+        verifiserArkivertStatus()
+        verifiserArkivertKall()
     }
 
     fun isRunning() {
@@ -106,4 +115,32 @@ class SlettUsendteRinasakerTest : AbstractTest() {
         verifiserEksekvert("/api/v1/rinasaker/5/avsluttLokalt")
     }
 
+    fun manipulerEndretTidspunktArkivering() {
+        rinasakRepository.case1_manipulerEndretTidspunktArkivering()
+        rinasakRepository.case2_manipulerEndretTidspunktArkivering()
+        rinasakRepository.case3_manipulerEndretTidspunktArkivering()
+        rinasakRepository.case4_manipulerEndretTidspunktArkivering()
+        rinasakRepository.case5_manipulerEndretTidspunktArkivering()
+    }
+
+    fun verifiserTilArkiveringStatus() {
+        1 er TIL_ARKIVERING
+        2 er OPPRETT_OPPGAVE
+        3 er NY_SAK
+        4 er AVSLUTTES_AV_MOTPART
+        5 er TIL_ARKIVERING
+    }
+
+    fun verifiserArkivertStatus() {
+        1 er ARKIVERT
+        2 er OPPRETT_OPPGAVE
+        3 er NY_SAK
+        4 er AVSLUTTES_AV_MOTPART
+        5 er ARKIVERT
+    }
+
+    fun verifiserArkivertKall() {
+        verifiserEksekvert("/api/v1/rinasaker/1/arkiver")
+        verifiserEksekvert("/api/v1/rinasaker/5/arkiver")
+    }
 }

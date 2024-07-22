@@ -17,5 +17,7 @@ val offsetDateTime2: OffsetDateTime = OffsetDateTime.parse("2023-04-22T10:40:40.
 const val dagerUvirksom: Long = 91
 const val dagerVirksom: Long = 89
 
+const val dagerArkivering: Long = 181
+
 const val kafkaTopicRinaCaseEvents = "eessibasis.eux-rina-case-events-v1"
 const val kafkaTopicRinaDocumentEvents = "eessibasis.eux-rina-document-events-v1"

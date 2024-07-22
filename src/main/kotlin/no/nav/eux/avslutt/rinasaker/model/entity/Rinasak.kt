@@ -22,6 +22,7 @@ data class Rinasak(
     val endretBruker: String = "ukjent",
     val endretTidspunkt: LocalDateTime = now(),
 ) {
+
     enum class Status {
         NY_SAK,
         DOKUMENT_SENT,
@@ -33,6 +34,8 @@ data class Rinasak(
         AVSLUTTET_LOKALT,
         OPPGAVE_OPPRETTET,
         KAN_IKKE_AVSLUTTES,
-        AVSLUTTES_AV_MOTPART
+        AVSLUTTES_AV_MOTPART,
+        TIL_ARKIVERING,
+        ARKIVERT,
     }
 }

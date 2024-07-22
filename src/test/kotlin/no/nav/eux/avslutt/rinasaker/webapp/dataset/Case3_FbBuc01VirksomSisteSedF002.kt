@@ -6,10 +6,8 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetada
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
 import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
-import no.nav.eux.avslutt.rinasaker.webapp.common.dagerUvirksom
-import no.nav.eux.avslutt.rinasaker.webapp.common.dagerVirksom
-import no.nav.eux.avslutt.rinasaker.webapp.common.uuid3
-import no.nav.eux.avslutt.rinasaker.webapp.common.uuid4
+import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
+import no.nav.eux.avslutt.rinasaker.webapp.common.*
 import java.time.LocalDateTime.now
 import java.time.OffsetDateTime
 
@@ -65,3 +63,13 @@ fun DokumentRepository.case3_manipulerOpprettetTidspunkt() {
         .copy(opprettetTidspunkt = now().minusDays(dagerVirksom))
     save(dokumentNyere)
 }
+
+fun RinasakRepository.case3_manipulerEndretTidspunktArkivering() {
+    val dokumentEldre = findByRinasakId(3)!!
+        .copy(endretTidspunkt = now().minusDays(dagerArkivering))
+    save(dokumentEldre)
+    val dokumentNyere = findByRinasakId(3)!!
+        .copy(endretTidspunkt = now().minusDays(dagerArkivering))
+    save(dokumentNyere)
+}
+

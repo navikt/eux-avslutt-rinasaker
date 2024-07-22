@@ -7,6 +7,7 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 data class Buc(
     val navn: String,
     val antallDagerBeforeUvirksom: Long,
+    val antallDagerBeforeArkivering: Long = 180,
     val sisteSedForAvslutningAutomatisk: String,
     val kreverSakseier: Boolean,
     val bucAvsluttScope: BucAvsluttScope,
@@ -42,5 +43,3 @@ val bucList = listOf(
         bucAvsluttScope = LOKALT,
     ),
 )
-
-val bucMap = bucList.associateBy { it.navn }
