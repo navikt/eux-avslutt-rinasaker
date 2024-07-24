@@ -56,6 +56,7 @@ class EuxRinaCaseEventsKafkaListener(
         log.info { "Mottok rina document event" }
         when (documentEventType) {
             "SENT_DOCUMENT" -> log.info { "Mottok documentEventType: $documentEventType" }
+            "RECEIVE_DOCUMENT" -> logReceivedDocumentEvent(kafkaRinaDocument)
             else -> log.info { "Mottok documentEventType, ignorerer: $documentEventType" }
         }
         populerService.leggTilDokument(
@@ -65,6 +66,10 @@ class EuxRinaCaseEventsKafkaListener(
             sedType = documentMetadata.type
         )
         clearLocalMdc()
+    }
+
+    fun logReceivedDocumentEvent(documentEventType: KafkaRinaDocument) {
+        log.info { "Mottok RECEIVE_DOCUMENT: $documentEventType" }
     }
 }
 
