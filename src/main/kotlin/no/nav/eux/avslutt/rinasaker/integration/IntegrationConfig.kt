@@ -52,7 +52,6 @@ class IntegrationConfig {
 }
 
 fun RestTemplate.restClient() = RestClient.create(this)
-fun RestTemplate.delete() = restClient().delete()
 fun RestTemplate.post() = restClient().post()
 fun RestTemplate.get() = restClient().get()
 
