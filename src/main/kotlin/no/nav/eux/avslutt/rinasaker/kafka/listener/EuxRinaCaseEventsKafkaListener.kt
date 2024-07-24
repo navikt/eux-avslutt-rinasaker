@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
+import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.service.PopulerService
 import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
 import no.nav.eux.avslutt.rinasaker.service.mdc
@@ -55,21 +56,20 @@ class EuxRinaCaseEventsKafkaListener(
         mdc(rinasakId = caseId, bucType = bucType)
         log.info { "Mottok rina document event" }
         when (documentEventType) {
-            "SENT_DOCUMENT" -> log.info { "Mottok documentEventType: $documentEventType" }
-            "RECEIVE_DOCUMENT" -> logReceivedDocumentEvent(kafkaRinaDocument)
+            "SENT_DOCUMENT" -> documentMetadata.leggTilDokument()
+            "RECEIVE_DOCUMENT" -> documentMetadata.leggTilDokument()
             else -> log.info { "Mottok documentEventType, ignorerer: $documentEventType" }
         }
-        populerService.leggTilDokument(
-            rinasakId = caseId,
-            sedId = uuid(documentMetadata.id),
-            sedVersjon = documentMetadata.versions.first().id,
-            sedType = documentMetadata.type
-        )
         clearLocalMdc()
     }
 
-    fun logReceivedDocumentEvent(documentEventType: KafkaRinaDocument) {
-        log.info { "Mottok RECEIVE_DOCUMENT: $documentEventType" }
+    private fun KafkaRinaDocumentMetadata.leggTilDokument() {
+        populerService.leggTilDokument(
+            rinasakId = caseId,
+            sedId = uuid(id),
+            sedVersjon = versions.first().id,
+            sedType = type
+        )
     }
 }
 
