@@ -7,7 +7,7 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 data class Buc(
     val navn: String,
     val antallDagerBeforeUvirksom: Long,
-    val antallDagerBeforeArkivering: Long = 180,
+    val antallDagerBeforeArkivering: Long = -1,
     val sisteSedForAvslutningAutomatisk: String,
     val kreverSakseier: Boolean,
     val bucAvsluttScope: BucAvsluttScope,
