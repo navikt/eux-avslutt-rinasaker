@@ -23,6 +23,7 @@ interface DokumentRepository : JpaRepository<Dokument, UUID> {
             from dokument, rinasak
             where dokument.rinasak_id = rinasak.rinasak_id
             and rinasak.status = :#{#status.toString()}
+            and rinasak.buc_type = :bucType
             order by dokument.rinasak_id, dokument.opprettet_tidspunkt desc
         ) as dokument_latest
         where dokument_latest.opprettet_tidspunkt < :date
@@ -32,6 +33,8 @@ interface DokumentRepository : JpaRepository<Dokument, UUID> {
     fun findDokumenterBeforeDate(
         @Param("date")
         date: LocalDateTime,
+        @Param("bucType")
+        bucType: String,
         @Param("status")
         status: Rinasak.Status
     ): List<Dokument>
