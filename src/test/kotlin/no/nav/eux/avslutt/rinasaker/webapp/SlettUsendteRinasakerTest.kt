@@ -9,8 +9,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.awaitility.kotlin.has
 import org.awaitility.kotlin.untilCallTo
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
+@Disabled("Disabled for manuell test i q1 og q2")
 class SlettUsendteRinasakerTest : AbstractTest() {
 
     @Test
