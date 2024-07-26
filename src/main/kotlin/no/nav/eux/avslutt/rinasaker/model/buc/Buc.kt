@@ -23,22 +23,29 @@ enum class BucAvsluttScope(
 val bucList = listOf(
     Buc(
         navn = "FB_BUC_01",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         sisteSedForAvslutningAutomatisk = "F002",
         kreverSakseier = true,
         bucAvsluttScope = GLOBALT,
     ),
     Buc(
         navn = "FB_BUC_02",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         sisteSedForAvslutningAutomatisk = "F017",
         kreverSakseier = true,
         bucAvsluttScope = GLOBALT,
     ),
     Buc(
         navn = "FB_BUC_04",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         sisteSedForAvslutningAutomatisk = "F003",
+        kreverSakseier = false,
+        bucAvsluttScope = LOKALT,
+    ),
+    Buc(
+        navn = "H_BUC_01",
+        antallDagerBeforeUvirksom = -1,
+        sisteSedForAvslutningAutomatisk = "H002",
         kreverSakseier = false,
         bucAvsluttScope = LOKALT,
     ),
