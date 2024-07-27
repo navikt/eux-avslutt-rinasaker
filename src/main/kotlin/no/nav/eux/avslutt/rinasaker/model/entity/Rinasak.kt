@@ -37,5 +37,7 @@ data class Rinasak(
         AVSLUTTES_AV_MOTPART,
         TIL_ARKIVERING,
         ARKIVERT,
+        HANDLING_MANGLER,
+        HANDLING_FEILET
     }
 }
