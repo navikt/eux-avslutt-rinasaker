@@ -26,3 +26,12 @@ application:
 
   eux-avslutt-rinasaker-sett-uvirksom-naisjob:
     name: eux-avslutt-rinasaker-sett-uvirksom-naisjob-q1
+
+  eux-avslutt-rinasaker-avslutt-naisjob:
+    name: eux-avslutt-rinasaker-avslutt-naisjob-q1
+
+  eux-avslutt-rinasaker-arkiver-naisjob:
+    name: eux-avslutt-rinasaker-arkiver-naisjob-q1
+
+  eux-avslutt-rinasaker-til-arkivering-naisjob:
+    name: eux-avslutt-rinasaker-til-arkivering-naisjob-q1
