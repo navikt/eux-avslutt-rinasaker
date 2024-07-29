@@ -8,12 +8,12 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.*
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime.now
 
 @Service
 class AvsluttService(
     val rinasakRepository: RinasakRepository,
-    val euxRinaTerminatorApiClient: EuxRinaTerminatorApiClient
+    val handlingService: HandlingService,
+    val euxRinaTerminatorApiClient: EuxRinaTerminatorApiClient,
 ) {
 
     val log = logger {}
@@ -27,35 +27,29 @@ class AvsluttService(
         rinasakRepository
             .findAllByStatusAndBucType(TIL_AVSLUTNING_LOKALT, navn)
             .also { log.info { "${it.size} saker vil bli avsluttet lokalt for buc type $navn" } }
-            .forEach { it.avsluttLokalt() }
+            .forEach { it.tryAvsluttLokalt() }
         rinasakRepository
             .findAllByStatusAndBucType(TIL_AVSLUTNING_GLOBALT, navn)
             .also { log.info { "${it.size} saker vil bli avsluttet globalt for buc type $navn" } }
-            .forEach { it.avsluttGlobalt() }
+            .forEach { it.tryAvsluttGlobalt() }
     }
 
-    fun Rinasak.avsluttGlobalt() {
-        mdc(rinasakId = rinasakId)
-        euxRinaTerminatorApiClient.avsluttGlobalt(rinasakId)
-        rinasakRepository.save(
-            copy(
-                status = AVSLUTTET_GLOBALT,
-                endretBruker = "avslutt",
-                endretTidspunkt = now()
-            )
-        )
-    }
+    fun Rinasak.tryAvsluttGlobalt() =
+        handlingService.tryHandling(
+            rinasak = this,
+            tilStatus = AVSLUTTET_GLOBALT,
+            endretBruker = "avslutt"
+        ) {
+            euxRinaTerminatorApiClient.avsluttGlobalt(rinasakId)
+        }
 
-    fun Rinasak.avsluttLokalt() {
-        mdc(rinasakId = rinasakId)
-        euxRinaTerminatorApiClient.avsluttLokalt(rinasakId)
-        rinasakRepository.save(
-            copy(
-                status = AVSLUTTET_LOKALT,
-                endretBruker = "avslutt",
-                endretTidspunkt = now()
-            )
-        )
-    }
+    fun Rinasak.tryAvsluttLokalt() =
+        handlingService.tryHandling(
+            rinasak = this,
+            tilStatus = AVSLUTTET_LOKALT,
+            endretBruker = "avslutt"
+        ) {
+            euxRinaTerminatorApiClient.avsluttLokalt(rinasakId)
+        }
 
 }

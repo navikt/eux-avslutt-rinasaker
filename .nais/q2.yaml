@@ -20,3 +20,7 @@ application:
     name: eux-rina-terminator-api-q2
     endpoint: http://eux-rina-terminator-api-q2
     scope: api://dev-gcp.eessibasis.eux-rina-terminator-api-q2/.default
+  eux-avslutt-rinasaker-til-avslutning-naisjob:
+    name: eux-avslutt-rinasaker-til-avslutning-naisjob-q2
+  eux-avslutt-rinasaker-sett-uvirksom-naisjob:
+    name: eux-avslutt-rinasaker-sett-uvirksom-naisjob-q2

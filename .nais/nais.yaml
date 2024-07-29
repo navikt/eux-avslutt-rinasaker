@@ -64,6 +64,10 @@ spec:
       enabled: true
       runtime: java
   accessPolicy:
+    inbound:
+      rules:
+        - application: {{ application.eux-avslutt-rinasaker-til-avslutning-naisjob.name }}
+        - application: {{ application.eux-avslutt-rinasaker-sett-uvirksom-naisjob.name }}
     outbound:
       rules:
         - application: {{ application.eux-rina-terminator-api.name }}
