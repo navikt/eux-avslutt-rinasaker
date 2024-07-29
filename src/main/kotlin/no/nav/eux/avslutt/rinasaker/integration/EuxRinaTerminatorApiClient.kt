@@ -17,7 +17,7 @@ class EuxRinaTerminatorApiClient(
 
     val log = logger {}
 
-    fun avsluttGlobalt(rinasakId: Int) {
+    fun avsluttGlobalt(rinasakId: Int) = tryHandling {
         euxRinaTerminatorApiRestTemplate
             .post()
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/avsluttGlobalt")
@@ -26,7 +26,7 @@ class EuxRinaTerminatorApiClient(
         log.info { "Avsluttet $rinasakId globalt" }
     }
 
-    fun avsluttLokalt(rinasakId: Int) {
+    fun avsluttLokalt(rinasakId: Int) = tryHandling {
         euxRinaTerminatorApiRestTemplate
             .post()
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/avsluttLokalt")
