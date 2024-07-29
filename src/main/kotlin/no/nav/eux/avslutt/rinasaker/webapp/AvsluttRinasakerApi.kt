@@ -32,7 +32,7 @@ class AvsluttRinasakerApi(
     @Operation(
         summary = "Avslutt rinasaker API",
         operationId = "prosess",
-        description = "start prosess for sletting av usendte rinasaker",
+        description = "start prosess for avslutning av rinasaker",
         responses = [
             ApiResponse(
                 responseCode = "204",

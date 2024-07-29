@@ -37,12 +37,11 @@ class TilAvslutningService(
             .forEach { it.avsluttesAvMotpart() }
     }
 
-    fun Buc.kanAvsluttes(rinasak: Rinasak): Boolean {
-        return if (kreverSakseier)
+    fun Buc.kanAvsluttes(rinasak: Rinasak): Boolean =
+        if (kreverSakseier)
             rinasak.erSakseier
         else
             true
-    }
 
     fun Buc.tilAvslutning(rinasak: Rinasak) {
         mdc(
