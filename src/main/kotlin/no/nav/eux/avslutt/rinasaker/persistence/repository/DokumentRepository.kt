@@ -27,6 +27,7 @@ interface DokumentRepository : JpaRepository<Dokument, UUID> {
             order by dokument.rinasak_id, dokument.opprettet_tidspunkt desc
         ) as dokument_latest
         where dokument_latest.opprettet_tidspunkt < :date
+        limit 5000
     """,
         nativeQuery = true
     )
