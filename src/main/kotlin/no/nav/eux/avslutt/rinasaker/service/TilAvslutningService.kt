@@ -26,7 +26,7 @@ class TilAvslutningService(
     fun Buc.settTilAvslutning() {
         mdc(bucType = navn)
         val uvirksommeSaker = rinasakRepository.findAllByStatusAndBucType(UVIRKSOM, navn)
-        log.info { "${uvirksommeSaker.size} uvirksomme saker funner for buc type $navn" }
+        log.info { "${uvirksommeSaker.size} uvirksomme saker funnet for buc type $navn" }
         uvirksommeSaker
             .filter { kanAvsluttes(it) }
             .also { "${it.size} saker vil forsøkes avsluttes for buc type $navn" }
