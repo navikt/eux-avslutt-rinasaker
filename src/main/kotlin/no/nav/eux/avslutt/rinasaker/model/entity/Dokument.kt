@@ -16,8 +16,17 @@ data class Dokument(
     val sedVersjon: Int,
     val rinasakId: Int,
     val sedType: String,
+    @Enumerated(STRING)
+    val status: Status,
     val opprettetBruker: String = "ukjent",
     val opprettetTidspunkt: LocalDateTime = now(),
     val endretBruker: String = "ukjent",
     val endretTidspunkt: LocalDateTime = now(),
-)
+) {
+    enum class Status(
+        val documentEventType: String,
+    ) {
+        SENT("SENT_DOCUMENT"),
+        MOTTATT("RECEIVE_DOCUMENT"),
+    }
+}

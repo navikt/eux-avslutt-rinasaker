@@ -5,6 +5,7 @@ CREATE TABLE dokument
     sed_id              uuid      not null,
     sed_versjon         int       not null,
     sed_type            text      not null,
+    status              text      not null,
     opprettet_bruker    text      not null,
     opprettet_tidspunkt timestamp not null,
     endret_bruker       text      not null,

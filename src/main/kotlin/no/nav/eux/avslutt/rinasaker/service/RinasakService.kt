@@ -14,4 +14,10 @@ class RinasakService(
             ?.sedType
             ?: throw RuntimeException("Kunne ikke finne siste sed type for rinasak $rinasakId")
 
+    fun sedTyper(rinasakId: Int) =
+        dokumentRepository
+            .findByRinasakId(rinasakId)
+            .map { it.sedType }
+            .distinct()
+
 }

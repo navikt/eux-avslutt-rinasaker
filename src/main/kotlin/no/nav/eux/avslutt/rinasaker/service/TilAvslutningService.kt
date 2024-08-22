@@ -48,9 +48,11 @@ class TilAvslutningService(
             rinasakId = rinasak.rinasakId,
             bucType = navn,
         )
-        if (rinasakService.sisteSedType(rinasak.rinasakId) == sisteSedForAvslutningAutomatisk)
+        if (rinasakService.sisteSedType(rinasak.rinasakId) in sisteSedForAvslutningAutomatisk)
             rinasak.avslutt(bucAvsluttScope)
-        else
+        else if (rinasakService.sedTyper(rinasak.rinasakId).any { it in sedExistsForAvslutningAutomatisk })
+            rinasak.avslutt(bucAvsluttScope)
+        else if (opprettOppgave)
             rinasak.lagOppgave()
     }
 

@@ -5,6 +5,9 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
+import no.nav.eux.avslutt.rinasaker.model.entity.Dokument
+import no.nav.eux.avslutt.rinasaker.model.entity.Dokument.Status.MOTTATT
+import no.nav.eux.avslutt.rinasaker.model.entity.Dokument.Status.SENT
 import no.nav.eux.avslutt.rinasaker.service.PopulerService
 import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
 import no.nav.eux.avslutt.rinasaker.service.mdc
@@ -56,19 +59,20 @@ class EuxRinaCaseEventsKafkaListener(
         mdc(rinasakId = caseId, bucType = bucType)
         log.info { "Mottok rina document event" }
         when (documentEventType) {
-            "SENT_DOCUMENT" -> documentMetadata.leggTilDokument()
-            "RECEIVE_DOCUMENT" -> documentMetadata.leggTilDokument()
+            "SENT_DOCUMENT" -> documentMetadata.leggTilDokument(SENT)
+            "RECEIVE_DOCUMENT" -> documentMetadata.leggTilDokument(MOTTATT)
             else -> log.info { "Mottok documentEventType, ignorerer: $documentEventType" }
         }
         clearLocalMdc()
     }
 
-    private fun KafkaRinaDocumentMetadata.leggTilDokument() {
+    private fun KafkaRinaDocumentMetadata.leggTilDokument(status: Dokument.Status) {
         populerService.leggTilDokument(
             rinasakId = caseId,
             sedId = uuid(id),
             sedVersjon = versions.first().id,
-            sedType = type
+            sedType = type,
+            status = status,
         )
     }
 }
