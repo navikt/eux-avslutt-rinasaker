@@ -4,9 +4,10 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.avslutt.rinasaker.model.buc.Buc
 import no.nav.eux.avslutt.rinasaker.model.buc.BucAvsluttScope
 import no.nav.eux.avslutt.rinasaker.model.buc.bucList
+import no.nav.eux.avslutt.rinasaker.model.entity.Dokument
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
-import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.AVSLUTTES_AV_MOTPART
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.UVIRKSOM
+import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime.now
@@ -14,7 +15,7 @@ import java.time.LocalDateTime.now
 @Service
 class TilAvslutningService(
     val rinasakRepository: RinasakRepository,
-    val rinasakService: RinasakService,
+    val dokumentRepository: DokumentRepository,
 ) {
 
     val log = logger {}
@@ -25,36 +26,63 @@ class TilAvslutningService(
 
     fun Buc.settTilAvslutning() {
         mdc(bucType = navn)
-        val uvirksommeSaker = rinasakRepository.findAllByStatusAndBucType(UVIRKSOM, navn)
-        log.info { "${uvirksommeSaker.size} uvirksomme saker funnet for buc type $navn" }
-        uvirksommeSaker
-            .filter { kanAvsluttes(it) }
+        rinasakRepository
+            .findAllByStatusAndBucType(UVIRKSOM, navn)
             .also { "${it.size} saker vil forsøkes avsluttes for buc type $navn" }
             .forEach { tilAvslutning(it) }
-        uvirksommeSaker
-            .filterNot { kanAvsluttes(it) }
-            .also { "${it.size} saker vil avsluttes av motpart for buc type $navn" }
-            .forEach { it.avsluttesAvMotpart() }
     }
-
-    fun Buc.kanAvsluttes(rinasak: Rinasak): Boolean =
-        if (kreverSakseier)
-            rinasak.erSakseier
-        else
-            true
 
     fun Buc.tilAvslutning(rinasak: Rinasak) {
         mdc(
             rinasakId = rinasak.rinasakId,
             bucType = navn,
         )
-        if (rinasakService.sisteSedType(rinasak.rinasakId) in sisteSedForAvslutningAutomatisk)
-            rinasak.avslutt(bucAvsluttScope)
-        else if (rinasakService.sedTyper(rinasak.rinasakId).any { it in sedExistsForAvslutningAutomatisk })
-            rinasak.avslutt(bucAvsluttScope)
-        else if (opprettOppgave)
-            rinasak.lagOppgave()
+        when {
+            rinasak.erSakseier && bucAvsluttScopeSakseier != null -> tilAvslutning(rinasak, bucAvsluttScopeSakseier)
+            !rinasak.erSakseier && bucAvsluttScopeMotpart != null -> tilAvslutning(rinasak, bucAvsluttScopeMotpart)
+            else -> rinasak.avsluttesAvMotpart()
+        }
     }
+
+    fun Buc.tilAvslutning(rinasak: Rinasak, scope: BucAvsluttScope) {
+        val dokumenter = rinasak.dokumenter()
+        when {
+            sisteSedFraNavAvslutning(dokumenter) -> rinasak avsluttMed scope
+            sisteSedForAvslutning(dokumenter) -> rinasak avsluttMed scope
+            sedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
+            mottattSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
+            sentSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
+            opprettOppgave -> rinasak.lagOppgave()
+        }
+    }
+
+    fun Buc.sisteSedFraNavAvslutning(dokumenter: List<Dokument>) =
+        sisteSedForAvslutningAutomatiskKrevesSendtFraNav
+                && dokumenter.sisteSedSendtFraNav()
+                && dokumenter.sisteSedType() in sisteSedForAvslutningAutomatisk
+
+    fun Buc.sisteSedForAvslutning(dokumenter: List<Dokument>) =
+        !sisteSedForAvslutningAutomatiskKrevesSendtFraNav
+                && dokumenter.sisteSedType() in sisteSedForAvslutningAutomatisk
+
+    fun Buc.sedExistsForAvslutning(dokumenter: List<Dokument>) =
+        dokumenter.sedTyper().any { it in sedExistsForAvslutningAutomatisk }
+
+    fun Buc.mottattSedExistsForAvslutning(dokumenter: List<Dokument>) =
+        dokumenter.sedTyper().any { it in mottattSedExistsForAvslutningAutomatisk }
+
+    fun Buc.sentSedExistsForAvslutning(dokumenter: List<Dokument>) =
+        dokumenter.sedTyper().any { it in sentSedExistsForAvslutningAutomatisk }
+
+    fun Rinasak.dokumenter() =
+        dokumentRepository.findByRinasakId(rinasakId)
+
+    fun List<Dokument>.sisteSedType() = maxByOrNull { it.endretTidspunkt }?.sedType
+
+    fun List<Dokument>.sedTyper() = map { it.sedType }.distinct()
+
+    fun List<Dokument>.sisteSedSendtFraNav() =
+        maxByOrNull { it.endretTidspunkt }?.status == Dokument.Status.SENT
 
     fun Rinasak.lagOppgave() {
         rinasakRepository.save(
@@ -67,7 +95,7 @@ class TilAvslutningService(
         log.info { "Oppgave vil bli opprettet for rinasak" }
     }
 
-    fun Rinasak.avslutt(bucAvsluttScope: BucAvsluttScope) {
+    infix fun Rinasak.avsluttMed(bucAvsluttScope: BucAvsluttScope) {
         rinasakRepository.save(
             copy(
                 status = bucAvsluttScope.tilAvslutningStatus,
@@ -85,7 +113,7 @@ class TilAvslutningService(
         )
         rinasakRepository.save(
             copy(
-                status = AVSLUTTES_AV_MOTPART,
+                status = Rinasak.Status.AVSLUTTES_AV_MOTPART,
                 endretBruker = "til-avslutning",
                 endretTidspunkt = now()
             )
