@@ -65,14 +65,14 @@ val fbBucList = listOf(
 val ubBucList = listOf(
     Buc(
         navn = "UB_BUC_01",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         mottattSedExistsForAvslutningAutomatisk = listOf("U002", "U004", "U017"),
         opprettOppgave = false,
     ),
     Buc(
         navn = "UB_BUC_02",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         mottattSedExistsForAvslutningAutomatisk = listOf("U014", "H070"),
         sentSedExistsForAvslutningAutomatisk = listOf("H070"),
@@ -80,7 +80,7 @@ val ubBucList = listOf(
     ),
     Buc(
         navn = "UB_BUC_03",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         mottattSedExistsForAvslutningAutomatisk = listOf("U019", "H070"),
         sentSedExistsForAvslutningAutomatisk = listOf("H070"),
@@ -88,7 +88,7 @@ val ubBucList = listOf(
     ),
     Buc(
         navn = "UB_BUC_04",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = -1,
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
         sedExistsForAvslutningAutomatisk = listOf("U024"),
