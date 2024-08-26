@@ -1,6 +1,8 @@
 package no.nav.eux.avslutt.rinasaker.model.buc
 
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
+import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.TIL_AVSLUTNING_GLOBALT
+import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.TIL_AVSLUTNING_LOKALT
 
 data class Buc(
     val navn: String,
@@ -19,16 +21,28 @@ data class Buc(
 enum class BucAvsluttScope(
     val tilAvslutningStatus: Rinasak.Status
 ) {
-    AVSLUTT_LOKALT(Rinasak.Status.TIL_AVSLUTNING_LOKALT),
-    AVSLUTT_GLOBALT(Rinasak.Status.TIL_AVSLUTNING_GLOBALT),
+    AVSLUTT_LOKALT(tilAvslutningStatus = TIL_AVSLUTNING_LOKALT),
+    AVSLUTT_GLOBALT(tilAvslutningStatus = TIL_AVSLUTNING_GLOBALT),
 }
 
-val bucList = listOf(
+val hBucList = listOf(
+    Buc(
+        navn = "H_BUC_01",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("H002"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+)
+
+val fbBucList = listOf(
     Buc(
         navn = "FB_BUC_01",
         antallDagerBeforeUvirksom = 90,
         sisteSedForAvslutningAutomatisk = listOf("F002"),
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        sisteSedForAvslutningAutomatiskKrevesSendtFraNav = true,
         opprettOppgave = true,
     ),
     Buc(
@@ -46,13 +60,43 @@ val bucList = listOf(
         bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
         opprettOppgave = false,
     ),
+)
+
+val ubBucList = listOf(
     Buc(
-        navn = "H_BUC_01",
+        navn = "UB_BUC_01",
         antallDagerBeforeUvirksom = 90,
-        sisteSedForAvslutningAutomatisk = listOf("H002"),
-        sisteSedForAvslutningAutomatiskKrevesSendtFraNav = true,
-        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("U002", "U004", "U017"),
+        opprettOppgave = false,
+    ),
+    Buc(
+        navn = "UB_BUC_02",
+        antallDagerBeforeUvirksom = 90,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("U014", "H070"),
+        sentSedExistsForAvslutningAutomatisk = listOf("H070"),
+        opprettOppgave = false,
+    ),
+    Buc(
+        navn = "UB_BUC_03",
+        antallDagerBeforeUvirksom = 90,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("U019", "H070"),
+        sentSedExistsForAvslutningAutomatisk = listOf("H070"),
+        opprettOppgave = false,
+    ),
+    Buc(
+        navn = "UB_BUC_04",
+        antallDagerBeforeUvirksom = 90,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
-        opprettOppgave = true,
+        sedExistsForAvslutningAutomatisk = listOf("U024"),
+        opprettOppgave = false,
     ),
 )
+
+val sBucList = emptyList<Buc>()
+
+val bucList =
+    fbBucList + hBucList + ubBucList + sBucList
