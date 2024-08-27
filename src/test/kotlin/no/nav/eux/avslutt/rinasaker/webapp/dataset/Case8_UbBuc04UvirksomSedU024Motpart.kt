@@ -1,12 +1,16 @@
 package no.nav.eux.avslutt.rinasaker.webapp.dataset
 
-import no.nav.eux.avslutt.rinasaker.kafka.model.case.*
+import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCase
+import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCasePayload
+import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
+import no.nav.eux.avslutt.rinasaker.webapp.common.caseCreatorOrgNotNav
 import no.nav.eux.avslutt.rinasaker.webapp.common.documentId
 import no.nav.eux.avslutt.rinasaker.webapp.common.offsetDateTime1
+import no.nav.eux.avslutt.rinasaker.webapp.common.whoamiNav
 
 private const val caseId = 8
 
@@ -16,8 +20,8 @@ val ubBuc04UvirksomSedU024Motpart_case = KafkaRinaCase(
         KafkaRinaCaseRestCase(
             id = caseId,
             processDefinitionName = "UB_BUC_04",
-            whoami = KafkaRinaCaseRestCaseWhoami(id = "NO:NAVAT06"),
-            creator = KafkaRinaCaseRestCaseCreator(KafkaRinaCaseRestCaseCreatorOrganisation(id = "NO:not-me"))
+            whoami = whoamiNav,
+            creator = caseCreatorOrgNotNav
         )
     )
 )
