@@ -85,15 +85,9 @@ class AvsluttRinasakerTest : AbstractTest() {
     }
 
     fun manipulerEndretTidspunkt() {
-        dokumentRepository.case1_manipulerOpprettetTidspunkt()
-        dokumentRepository.case2_manipulerOpprettetTidspunkt()
+        for (i in (1..2) + (5..10))
+            dokumentRepository manipulerEndretTidspunktForSed i
         dokumentRepository.case3_manipulerOpprettetTidspunkt()
-        dokumentRepository.case4_manipulerOpprettetTidspunkt()
-        dokumentRepository.case5_manipulerOpprettetTidspunkt()
-        dokumentRepository.case6_manipulerOpprettetTidspunkt()
-        dokumentRepository manipulerEndretTidspunktForSed 8
-        dokumentRepository manipulerEndretTidspunktForSed 9
-        dokumentRepository manipulerEndretTidspunktForSed 10
     }
 
     fun verifiserVirksomStatus() {
@@ -140,15 +134,9 @@ class AvsluttRinasakerTest : AbstractTest() {
     }
 
     fun manipulerEndretTidspunktArkivering() {
-        rinasakRepository.case1_manipulerEndretTidspunktArkivering()
-        rinasakRepository.case2_manipulerEndretTidspunktArkivering()
+        for (i in (1..2) + (4..9))
+            rinasakRepository manipulerEndretTidspunktForCaseIdArkivering i
         rinasakRepository.case3_manipulerEndretTidspunktArkivering()
-        rinasakRepository.case4_manipulerEndretTidspunktArkivering()
-        rinasakRepository.case5_manipulerEndretTidspunktArkivering()
-        rinasakRepository.case6_manipulerEndretTidspunktArkivering()
-        rinasakRepository manipulerEndretTidspunktForCaseIdArkivering 7
-        rinasakRepository manipulerEndretTidspunktForCaseIdArkivering 8
-        rinasakRepository manipulerEndretTidspunktForCaseIdArkivering 9
     }
 
     fun verifiserTilArkiveringStatus() {

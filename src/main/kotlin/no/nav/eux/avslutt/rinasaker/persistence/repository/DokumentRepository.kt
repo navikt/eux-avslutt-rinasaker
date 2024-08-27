@@ -14,8 +14,6 @@ interface DokumentRepository : JpaRepository<Dokument, UUID> {
     fun findByRinasakId(rinasakId: Int): List<Dokument>
     fun findBySedIdAndSedVersjon(sedId: UUID, sedVersjon: Int): Dokument?
 
-    fun findFirstByRinasakIdOrderByOpprettetTidspunktDesc(rinasakId: Int): Dokument?
-
     @Query(
         value = """
         select * from (
@@ -24,9 +22,9 @@ interface DokumentRepository : JpaRepository<Dokument, UUID> {
             where dokument.rinasak_id = rinasak.rinasak_id
             and rinasak.status = :#{#status.toString()}
             and rinasak.buc_type = :bucType
-            order by dokument.rinasak_id, dokument.opprettet_tidspunkt desc
+            order by dokument.rinasak_id, dokument.endret_tidspunkt desc
         ) as dokument_latest
-        where dokument_latest.opprettet_tidspunkt < :date
+        where dokument_latest.endret_tidspunkt < :date
         limit 5000
     """,
         nativeQuery = true

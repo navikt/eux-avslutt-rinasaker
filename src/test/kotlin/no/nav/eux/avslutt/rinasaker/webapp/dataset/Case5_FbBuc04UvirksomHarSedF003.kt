@@ -5,12 +5,6 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
-import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
-import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
-import no.nav.eux.avslutt.rinasaker.webapp.common.dagerArkivering
-import no.nav.eux.avslutt.rinasaker.webapp.common.dagerUvirksom
-import no.nav.eux.avslutt.rinasaker.webapp.common.uuid6
-import java.time.LocalDateTime.now
 import java.time.OffsetDateTime
 
 val fbBuc04UvirksomSedF003_case = KafkaRinaCase(
@@ -40,15 +34,3 @@ val fbBuc04UvirksomSedF003_sed = KafkaRinaDocument(
         )
     )
 )
-
-fun DokumentRepository.case5_manipulerOpprettetTidspunkt() {
-    val dokument = findBySedIdAndSedVersjon(uuid6, 1)!!
-        .copy(opprettetTidspunkt = now().minusDays(dagerUvirksom))
-    save(dokument)
-}
-
-fun RinasakRepository.case5_manipulerEndretTidspunktArkivering() {
-    val dokument = findByRinasakId(5)!!
-        .copy(endretTidspunkt = now().minusDays(dagerArkivering))
-    save(dokument)
-}

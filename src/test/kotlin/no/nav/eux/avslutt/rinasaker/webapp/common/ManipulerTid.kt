@@ -6,7 +6,7 @@ import java.time.LocalDateTime.now
 
 infix fun DokumentRepository.manipulerEndretTidspunktForSed(sedId: Int) =
     findBySedIdAndSedVersjon(sedId = sedId.uuid, 1)!!
-        .copy(opprettetTidspunkt = now().minusDays(dagerUvirksom))
+        .copy(endretTidspunkt = now().minusDays(dagerUvirksom))
         .let { save(it) }
 
 infix fun RinasakRepository.manipulerEndretTidspunktForCaseIdArkivering(caseId: Int) =
