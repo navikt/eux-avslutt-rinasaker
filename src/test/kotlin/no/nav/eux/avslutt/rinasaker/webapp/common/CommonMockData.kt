@@ -15,7 +15,7 @@ val uuid5: UUID = fromString("00000000-0000-0000-0000-000000000005")
 val uuid6: UUID = fromString("00000000-0000-0000-0000-000000000006")
 val uuid7: UUID = fromString("00000000-0000-0000-0000-000000000007")
 
-val offsetDateTime1: OffsetDateTime = OffsetDateTime.parse("2024-07-08T16:24:02+02")
+val offsetDateTime: OffsetDateTime = OffsetDateTime.parse("2024-07-08T16:24:02+02")
 
 const val dagerUvirksom: Long = 91
 const val dagerVirksom: Long = 89

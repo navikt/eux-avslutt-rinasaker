@@ -9,7 +9,7 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayloa
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
 import no.nav.eux.avslutt.rinasaker.webapp.common.caseCreatorOrgNav
 import no.nav.eux.avslutt.rinasaker.webapp.common.documentId
-import no.nav.eux.avslutt.rinasaker.webapp.common.offsetDateTime1
+import no.nav.eux.avslutt.rinasaker.webapp.common.offsetDateTime
 import no.nav.eux.avslutt.rinasaker.webapp.common.whoamiNav
 
 private const val caseId = 9
@@ -37,7 +37,7 @@ val ubBuc04UvirksomSedU024Sakseier_sed = KafkaRinaDocument(
             versions = listOf(
                 KafkaRinaDocumentVersions(id = 1)
             ),
-            creationDate = offsetDateTime1
+            creationDate = offsetDateTime
         )
     )
 )
