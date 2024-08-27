@@ -6,11 +6,7 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
-import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
-import no.nav.eux.avslutt.rinasaker.webapp.common.caseCreatorOrgNotNav
-import no.nav.eux.avslutt.rinasaker.webapp.common.documentId
-import no.nav.eux.avslutt.rinasaker.webapp.common.offsetDateTime
-import no.nav.eux.avslutt.rinasaker.webapp.common.whoamiNav
+import no.nav.eux.avslutt.rinasaker.webapp.common.*
 
 val fbBuc01UvirksomSisteSedF002IkkeSakseier_case = KafkaRinaCase(
     caseEventType = "OPEN_CASE",
@@ -32,9 +28,7 @@ val fbBuc01UvirksomSisteSedF002IkkeSakseier_sed = KafkaRinaDocument(
             id = 5.documentId,
             type = "F002",
             caseId = 4,
-            versions = listOf(
-                KafkaRinaDocumentVersions(id = 1)
-            ),
+            versions = documentVersions,
             creationDate = offsetDateTime
         )
     )

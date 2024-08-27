@@ -48,19 +48,17 @@ val fbBuc01VirksomSisteSedF002_sed2 = KafkaRinaDocument(
             id = 4.documentId,
             type = "F002",
             caseId = 3,
-            versions = listOf(
-                KafkaRinaDocumentVersions(id = 1)
-            ),
+            versions = documentVersions,
             creationDate = offsetDateTime
         )
     )
 )
 
 fun DokumentRepository.case3_manipulerOpprettetTidspunkt() {
-    val dokumentEldre = findBySedIdAndSedVersjon(uuid3, 1)!!
+    val dokumentEldre = findBySedIdAndSedVersjon(3.uuid, 1)!!
         .copy(opprettetTidspunkt = now().minusDays(dagerUvirksom))
     save(dokumentEldre)
-    val dokumentNyere = findBySedIdAndSedVersjon(uuid4, 1)!!
+    val dokumentNyere = findBySedIdAndSedVersjon(4.uuid, 1)!!
         .copy(opprettetTidspunkt = now().minusDays(dagerVirksom))
     save(dokumentNyere)
 }

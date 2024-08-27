@@ -6,11 +6,7 @@ import no.nav.eux.avslutt.rinasaker.kafka.model.case.KafkaRinaCaseRestCase
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentMetadata
 import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentPayload
-import no.nav.eux.avslutt.rinasaker.kafka.model.document.KafkaRinaDocumentVersions
-import no.nav.eux.avslutt.rinasaker.webapp.common.caseCreatorOrgNotNav
-import no.nav.eux.avslutt.rinasaker.webapp.common.documentId
-import no.nav.eux.avslutt.rinasaker.webapp.common.offsetDateTime
-import no.nav.eux.avslutt.rinasaker.webapp.common.whoamiNav
+import no.nav.eux.avslutt.rinasaker.webapp.common.*
 
 private const val caseId = 8
 
@@ -34,9 +30,7 @@ val ubBuc04UvirksomSedU024Motpart_sed = KafkaRinaDocument(
             id = 9.documentId,
             type = "U024",
             caseId = caseId,
-            versions = listOf(
-                KafkaRinaDocumentVersions(id = 1)
-            ),
+            versions = documentVersions,
             creationDate = offsetDateTime
         )
     )
