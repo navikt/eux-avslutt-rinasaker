@@ -21,8 +21,12 @@ fun mockResponsePost(request: RecordedRequest) =
         "/api/v1/journalposter/settStatusAvbryt" -> response204()
         "/api/v1/rinasaker/1/avsluttGlobalt" -> getEuxRinaTerminatorApiNoContent()
         "/api/v1/rinasaker/5/avsluttLokalt" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/8/avsluttLokalt" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/9/avsluttGlobalt" -> getEuxRinaTerminatorApiNoContent()
         "/api/v1/rinasaker/1/arkiver" -> getEuxRinaTerminatorApiNoContent()
         "/api/v1/rinasaker/5/arkiver" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/8/arkiver" -> getEuxRinaTerminatorApiNoContent()
+        "/api/v1/rinasaker/9/arkiver" -> getEuxRinaTerminatorApiNoContent()
         else -> defaultResponse()
     }
 
