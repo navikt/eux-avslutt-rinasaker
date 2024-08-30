@@ -90,13 +90,77 @@ val ubBucList = listOf(
         navn = "UB_BUC_04",
         antallDagerBeforeUvirksom = 90,
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
-        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
         sedExistsForAvslutningAutomatisk = listOf("U024"),
         opprettOppgave = false,
     ),
 )
 
-val sBucList = emptyList<Buc>()
+val sBucList = listOf(
+    Buc(
+        navn = "S_BUC_12",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S055"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_14",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S046"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_14a",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S047"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_14b",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S048"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_15",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S057"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_17",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S003"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_17a",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S005"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "S_BUC_024",
+        antallDagerBeforeUvirksom = 90,
+        sisteSedForAvslutningAutomatisk = listOf("S041"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+)
 
 val bucList =
     fbBucList + hBucList + ubBucList + sBucList

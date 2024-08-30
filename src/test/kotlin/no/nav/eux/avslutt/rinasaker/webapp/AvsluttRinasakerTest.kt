@@ -110,7 +110,7 @@ class AvsluttRinasakerTest : AbstractTest() {
         5 er TIL_AVSLUTNING_LOKALT
         6 er UVIRKSOM
         7 er UVIRKSOM
-        8 er TIL_AVSLUTNING_LOKALT
+        8 er AVSLUTTES_AV_MOTPART
         9 er TIL_AVSLUTNING_GLOBALT
     }
 
@@ -122,14 +122,13 @@ class AvsluttRinasakerTest : AbstractTest() {
         5 er AVSLUTTET_LOKALT
         6 er UVIRKSOM
         7 er UVIRKSOM
-        8 er AVSLUTTET_LOKALT
+        8 er AVSLUTTES_AV_MOTPART
         9 er AVSLUTTET_GLOBALT
     }
 
     fun verifiserAvsluttKall() {
         verifiserEksekvert("/api/v1/rinasaker/1/avsluttGlobalt")
         verifiserEksekvert("/api/v1/rinasaker/5/avsluttLokalt")
-        verifiserEksekvert("/api/v1/rinasaker/8/avsluttLokalt")
         verifiserEksekvert("/api/v1/rinasaker/9/avsluttGlobalt")
     }
 
@@ -147,7 +146,7 @@ class AvsluttRinasakerTest : AbstractTest() {
         5 er TIL_ARKIVERING
         6 er UVIRKSOM
         7 er UVIRKSOM
-        8 er TIL_ARKIVERING
+        8 er AVSLUTTES_AV_MOTPART
         9 er TIL_ARKIVERING
     }
 
@@ -159,14 +158,13 @@ class AvsluttRinasakerTest : AbstractTest() {
         5 er ARKIVERT
         6 er UVIRKSOM
         7 er UVIRKSOM
-        8 er ARKIVERT
+        8 er AVSLUTTES_AV_MOTPART
         9 er ARKIVERT
     }
 
     fun verifiserArkivertKall() {
         verifiserEksekvert("/api/v1/rinasaker/1/arkiver")
         verifiserEksekvert("/api/v1/rinasaker/5/arkiver")
-        verifiserEksekvert("/api/v1/rinasaker/8/arkiver")
         verifiserEksekvert("/api/v1/rinasaker/9/arkiver")
     }
 }
