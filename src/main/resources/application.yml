@@ -21,8 +21,8 @@ spring:
         format_sql: false
 
   flyway:
-    clean-on-validation-error: true
-    clean-disabled: false
+    clean-on-validation-error: false
+    clean-disabled: true
 
 kafka:
   topics:
