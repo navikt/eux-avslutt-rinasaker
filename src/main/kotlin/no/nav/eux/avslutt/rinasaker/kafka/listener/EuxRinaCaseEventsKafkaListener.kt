@@ -9,8 +9,8 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Dokument
 import no.nav.eux.avslutt.rinasaker.model.entity.Dokument.Status.MOTTATT
 import no.nav.eux.avslutt.rinasaker.model.entity.Dokument.Status.SENT
 import no.nav.eux.avslutt.rinasaker.service.PopulerService
-import no.nav.eux.avslutt.rinasaker.service.clearLocalMdc
-import no.nav.eux.avslutt.rinasaker.service.mdc
+import no.nav.eux.logging.clearLocalMdc
+import no.nav.eux.logging.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service
