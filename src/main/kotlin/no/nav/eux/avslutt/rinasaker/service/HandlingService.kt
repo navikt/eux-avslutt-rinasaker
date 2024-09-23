@@ -6,6 +6,7 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.HANDLING_FEILET
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.HANDLING_MANGLER
 import no.nav.eux.avslutt.rinasaker.model.exception.HandlingManglerException
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
+import no.nav.eux.logging.mdc
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime.now
 

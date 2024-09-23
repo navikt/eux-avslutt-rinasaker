@@ -8,6 +8,7 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.NY_SAK
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.UVIRKSOM
 import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
+import no.nav.eux.logging.mdc
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime.now
 

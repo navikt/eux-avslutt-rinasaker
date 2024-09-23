@@ -8,6 +8,7 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.ARKIVERT
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.TIL_ARKIVERING
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
+import no.nav.eux.logging.mdc
 import org.springframework.stereotype.Service
 
 @Service

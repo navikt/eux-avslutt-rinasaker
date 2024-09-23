@@ -7,6 +7,7 @@ import no.nav.eux.avslutt.rinasaker.model.buc.bucList
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.*
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
+import no.nav.eux.logging.mdc
 import org.springframework.stereotype.Service
 
 @Service
