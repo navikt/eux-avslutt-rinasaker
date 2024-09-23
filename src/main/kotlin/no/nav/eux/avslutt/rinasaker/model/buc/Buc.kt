@@ -149,7 +149,7 @@ val sBucList = listOf(
         opprettOppgave = true,
     ),
     Buc(
-        navn = "S_BUC_024",
+        navn = "S_BUC_24",
         antallDagerBeforeUvirksom = 90,
         sisteSedForAvslutningAutomatisk = listOf("S041"),
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
