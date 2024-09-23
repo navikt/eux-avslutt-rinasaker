@@ -98,8 +98,8 @@ class AvsluttRinasakerApi(
                 return ResponseEntity(BAD_REQUEST)
             }
         }
-        clearLocalMdc()
         log.info { "prosess utført" }
+        clearLocalMdc()
         return ResponseEntity(NO_CONTENT)
     }
 
