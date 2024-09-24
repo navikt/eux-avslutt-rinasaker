@@ -9,7 +9,6 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.UVIRKSOM
 import no.nav.eux.avslutt.rinasaker.persistence.repository.DokumentRepository
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
-import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime.now
@@ -96,7 +95,6 @@ class TilAvslutningService(
             )
         )
         log.info { "Oppgave vil bli opprettet for rinasak" }
-        clearLocalMdc()
     }
 
     infix fun Rinasak.avsluttMed(bucAvsluttScope: BucAvsluttScope) {
@@ -109,7 +107,6 @@ class TilAvslutningService(
             )
         )
         log.info { "Rinasak satt til avslutning: ${bucAvsluttScope.tilAvslutningStatus}" }
-        clearLocalMdc()
     }
 
     fun Rinasak.avsluttesAvMotpart() {
@@ -125,7 +122,6 @@ class TilAvslutningService(
             )
         )
         log.info { "Rinasak vil avsluttes av motpart" }
-        clearLocalMdc()
     }
 
 }
