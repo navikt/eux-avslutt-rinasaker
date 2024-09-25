@@ -72,10 +72,10 @@ val ubBucList = listOf(
     ),
     Buc(
         navn = "UB_BUC_02",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = 180,
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
-        mottattSedExistsForAvslutningAutomatisk = listOf("U014", "H070"),
-        sentSedExistsForAvslutningAutomatisk = listOf("H070"),
+        mottattSedExistsForAvslutningAutomatisk = listOf("U008", "U014", "H070"),
+        sentSedExistsForAvslutningAutomatisk = listOf("U009", "H070"),
         opprettOppgave = false,
     ),
     Buc(
