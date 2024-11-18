@@ -44,6 +44,15 @@ class EuxRinaTerminatorApiClient(
         log.info { "Arkiverte rinasak $rinasakId" }
     }
 
+    fun slettDokumentutkast(rinasakId: Int) = tryHandling {
+        euxRinaTerminatorApiRestTemplate
+            .post()
+            .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/slettDokumentutkast")
+            .retrieve()
+            .toBodilessEntity()
+        log.info { "Slettes dokumentutkast i rinasak $rinasakId" }
+    }
+
     fun tryHandling(action: () -> Unit) {
         try {
             action()
