@@ -35,3 +35,6 @@ application:
 
   eux-avslutt-rinasaker-til-arkivering-naisjob:
     name: eux-avslutt-rinasaker-til-arkivering-naisjob-q1
+
+  eux-avslutt-rinasaker-slett-dokumentutkast-naisjob:
+    name: eux-avslutt-rinasaker-slett-dokumentutkast-naisjob-q1

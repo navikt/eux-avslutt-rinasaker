@@ -71,6 +71,7 @@ spec:
         - application: {{ application.eux-avslutt-rinasaker-avslutt-naisjob.name }}
         - application: {{ application.eux-avslutt-rinasaker-arkiver-naisjob.name }}
         - application: {{ application.eux-avslutt-rinasaker-til-arkivering-naisjob.name }}
+        - application: {{ application.eux-avslutt-rinasaker-slett-dokumentutkast-naisjob.name }}
     outbound:
       rules:
         - application: {{ application.eux-rina-terminator-api.name }}
