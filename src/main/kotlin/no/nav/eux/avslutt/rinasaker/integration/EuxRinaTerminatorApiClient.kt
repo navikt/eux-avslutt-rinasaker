@@ -50,7 +50,7 @@ class EuxRinaTerminatorApiClient(
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/slettDokumentutkast")
             .retrieve()
             .toBodilessEntity()
-        log.info { "Slettes dokumentutkast i rinasak $rinasakId" }
+        log.info { "Slettet dokumentutkast i rinasak $rinasakId" }
     }
 
     fun tryHandling(action: () -> Unit) {
