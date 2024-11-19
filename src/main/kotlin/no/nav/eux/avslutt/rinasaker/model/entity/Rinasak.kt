@@ -38,6 +38,7 @@ data class Rinasak(
         TIL_ARKIVERING,
         ARKIVERT,
         HANDLING_MANGLER,
-        HANDLING_FEILET
+        HANDLING_FEILET,
+        SLETT_DOKUMENTUTKAST,
     }
 }

@@ -27,6 +27,7 @@ class AvsluttRinasakerApi(
     val avsluttService: AvsluttService,
     val arkiverService: ArkiverService,
     val tilArkiveringService: TilArkiveringService,
+    val slettDokumentutkastService: SlettDokumentutkastService
 ) {
 
     val log = logger {}
@@ -77,6 +78,7 @@ class AvsluttRinasakerApi(
                     * `lag-oppgave` - Lager oppgave for manuell avslutning av rinasaker
                     * `til-arkivering` - Setter rinasaker til arkivering
                     * `arkiver` - Arkiverer rinasaker
+                    * `slett-dokumentutkast` - Sletter dokumentutkast for X001
                     """,
             required = true
         )
@@ -93,6 +95,7 @@ class AvsluttRinasakerApi(
             "lag-oppgave" -> log.warn { "prosess ikke implementert" }
             "til-arkivering" -> tilArkiveringService.settRinasakerTilArkivering()
             "arkiver" -> arkiverService.arkiverRinasaker()
+            "slett-dokumentutkast" -> slettDokumentutkastService.slettDokumentutkast()
             else -> {
                 log.error { "ukjent prosess: $prosess" }
                 return ResponseEntity(BAD_REQUEST)
