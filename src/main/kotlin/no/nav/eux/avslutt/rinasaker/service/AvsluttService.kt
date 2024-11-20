@@ -27,7 +27,7 @@ class AvsluttService(
         mdc(bucType = navn)
         rinasakRepository
             .findAllByStatusAndBucType(TIL_AVSLUTNING_LOKALT, navn)
-            .take(1000)
+            .take(2000)
             .also { log.info { "${it.size} saker vil bli avsluttet lokalt for buc type $navn" } }
             .forEach { it.tryAvsluttLokalt() }
         rinasakRepository
