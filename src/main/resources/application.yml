@@ -42,6 +42,11 @@ kafka:
         location: ${KAFKA_TRUSTSTORE_PATH}
         password: ${KAFKA_CREDSTORE_PASSWORD}
 
+logging:
+  structured:
+    format:
+      console: logstash
+
 endpoint:
   eux-rina-terminator-api: ${EUX_RINA_TERMINATOR_API_ENDPOINT}
 
