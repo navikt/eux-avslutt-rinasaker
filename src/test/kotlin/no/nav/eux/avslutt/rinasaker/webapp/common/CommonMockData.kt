@@ -10,7 +10,7 @@ import java.util.UUID.fromString
 
 val offsetDateTime: OffsetDateTime = OffsetDateTime.parse("2024-07-08T16:24:02+02")
 
-const val dagerUvirksom: Long = 91
+const val dagerUvirksom: Long = 121
 const val dagerVirksom: Long = 89
 
 const val dagerArkivering: Long = 181
