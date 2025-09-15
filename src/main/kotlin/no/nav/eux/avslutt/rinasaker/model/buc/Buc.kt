@@ -40,6 +40,7 @@ val fbBucList = listOf(
     Buc(
         navn = "FB_BUC_01",
         antallDagerBeforeUvirksom = 120,
+        antallDagerBeforeArkivering = 400,
         sisteSedForAvslutningAutomatisk = listOf("F002"),
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         sisteSedForAvslutningAutomatiskKrevesSendtFraNav = true,
