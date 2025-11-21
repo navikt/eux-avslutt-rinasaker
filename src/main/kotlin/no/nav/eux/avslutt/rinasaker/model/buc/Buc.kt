@@ -159,5 +159,40 @@ val sBucList = listOf(
     ),
 )
 
+val pBucList = listOf(
+    Buc(
+        navn = "P_BUC_01",
+        antallDagerBeforeUvirksom = 10000,
+        sisteSedForAvslutningAutomatisk = listOf("disabled"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "P_BUC_03",
+        antallDagerBeforeUvirksom = 10000,
+        sisteSedForAvslutningAutomatisk = listOf("disabled"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "P_BUC_06",
+        antallDagerBeforeUvirksom = 10000,
+        sisteSedForAvslutningAutomatisk = listOf("disabled"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+    Buc(
+        navn = "P_BUC_07",
+        antallDagerBeforeUvirksom = 10000,
+        sisteSedForAvslutningAutomatisk = listOf("disabled"),
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        opprettOppgave = true,
+    ),
+)
+
 val bucList =
     fbBucList + hBucList + ubBucList + sBucList

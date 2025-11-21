@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.avslutt.rinasaker.integration.EuxRinaTerminatorApiClient
 import no.nav.eux.avslutt.rinasaker.model.buc.Buc
 import no.nav.eux.avslutt.rinasaker.model.buc.bucList
+import no.nav.eux.avslutt.rinasaker.model.buc.pBucList
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak
 import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.*
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
@@ -20,7 +21,8 @@ class AvsluttService(
     val log = logger {}
 
     fun avsluttRinasaker() {
-        bucList.forEach { it.avslutt() }
+        (bucList + pBucList)
+            .forEach { it.avslutt() }
     }
 
     fun Buc.avslutt() {
