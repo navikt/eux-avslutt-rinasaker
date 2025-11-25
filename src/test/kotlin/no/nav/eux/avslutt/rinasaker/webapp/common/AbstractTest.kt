@@ -69,6 +69,7 @@ abstract class AbstractTest {
     lateinit var restTemplate: TestRestTemplate
 
     @Autowired
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     lateinit var kafkaTemplate: KafkaTemplate<String, Any>
 
     @Autowired
