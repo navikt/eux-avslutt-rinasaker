@@ -9,10 +9,10 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.TestRestTemplate
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
+import org.springframework.boot.resttestclient.exchange
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.exchange
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod.POST
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.test.annotation.DirtiesContext
@@ -34,6 +34,7 @@ import kotlin.test.assertEquals
 @EnableMockOAuth2Server
 @Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@AutoConfigureTestRestTemplate
 abstract class AbstractTest {
 
     companion object {
@@ -59,10 +60,7 @@ abstract class AbstractTest {
             registry.add("kafka.bootstrap-servers", kafka::getBootstrapServers)
             registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers)
         }
- }
-
-    val <T> T.httpEntity: HttpEntity<T>
-        get() = httpEntity(mockOAuth2Server)
+    }
 
     fun httpEntity() = voidHttpEntity(mockOAuth2Server)
 
