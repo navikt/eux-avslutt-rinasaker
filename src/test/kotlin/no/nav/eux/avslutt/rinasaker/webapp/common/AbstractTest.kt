@@ -19,10 +19,10 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.KafkaContainer
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.kafka.KafkaContainer
+import org.testcontainers.postgresql.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 import kotlin.test.assertEquals
 
@@ -41,15 +41,13 @@ abstract class AbstractTest {
 
         @JvmStatic
         @Container
-        val postgres: PostgreSQLContainer<*> = PostgreSQLContainer(
+        val postgres: PostgreSQLContainer = PostgreSQLContainer(
             "postgres:15-alpine"
         )
 
         @JvmStatic
         @Container
-        val kafka = KafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka:7.6.1")
-        )
+        val kafka = KafkaContainer(DockerImageName.parse("apache/kafka-native:3.8.0"))
 
         @JvmStatic
         @DynamicPropertySource
