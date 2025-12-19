@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.stereotype.Service
 import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.RestClient
 
 @Service
 class EuxRinaTerminatorApiClient(
-    @Value("\${endpoint.eux-rina-terminator-api}")
+    @param:Value("\${endpoint.eux-rina-terminator-api}")
     val euxRinaTerminatorApiEndpoint: String,
-    val euxRinaTerminatorApiRestTemplate: RestTemplate
+    val euxRinaTerminatorApiRestClient: RestClient
 ) {
 
     val log = logger {}
 
     fun avsluttGlobalt(rinasakId: Int) = tryHandling {
-        euxRinaTerminatorApiRestTemplate
+        euxRinaTerminatorApiRestClient
             .post()
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/avsluttGlobalt")
             .retrieve()
@@ -27,7 +27,7 @@ class EuxRinaTerminatorApiClient(
     }
 
     fun avsluttLokalt(rinasakId: Int) = tryHandling {
-        euxRinaTerminatorApiRestTemplate
+        euxRinaTerminatorApiRestClient
             .post()
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/avsluttLokalt")
             .retrieve()
@@ -36,7 +36,7 @@ class EuxRinaTerminatorApiClient(
     }
 
     fun arkiver(rinasakId: Int) = tryHandling {
-        euxRinaTerminatorApiRestTemplate
+        euxRinaTerminatorApiRestClient
             .post()
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/arkiver")
             .retrieve()
@@ -45,7 +45,7 @@ class EuxRinaTerminatorApiClient(
     }
 
     fun slettDokumentutkast(rinasakId: Int) = tryHandling {
-        euxRinaTerminatorApiRestTemplate
+        euxRinaTerminatorApiRestClient
             .post()
             .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/slettDokumentutkast")
             .retrieve()

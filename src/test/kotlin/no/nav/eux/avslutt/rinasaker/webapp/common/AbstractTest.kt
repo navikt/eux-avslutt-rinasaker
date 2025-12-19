@@ -9,20 +9,20 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.TestRestTemplate
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
+import org.springframework.boot.resttestclient.exchange
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.exchange
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod.POST
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.KafkaContainer
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.kafka.KafkaContainer
+import org.testcontainers.postgresql.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 import kotlin.test.assertEquals
 
@@ -34,21 +34,20 @@ import kotlin.test.assertEquals
 @EnableMockOAuth2Server
 @Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@AutoConfigureTestRestTemplate
 abstract class AbstractTest {
 
     companion object {
 
         @JvmStatic
         @Container
-        val postgres: PostgreSQLContainer<*> = PostgreSQLContainer(
+        val postgres: PostgreSQLContainer = PostgreSQLContainer(
             "postgres:15-alpine"
         )
 
         @JvmStatic
         @Container
-        val kafka = KafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka:7.6.1")
-        )
+        val kafka = KafkaContainer(DockerImageName.parse("apache/kafka-native:3.8.0"))
 
         @JvmStatic
         @DynamicPropertySource
@@ -59,10 +58,7 @@ abstract class AbstractTest {
             registry.add("kafka.bootstrap-servers", kafka::getBootstrapServers)
             registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers)
         }
- }
-
-    val <T> T.httpEntity: HttpEntity<T>
-        get() = httpEntity(mockOAuth2Server)
+    }
 
     fun httpEntity() = voidHttpEntity(mockOAuth2Server)
 
@@ -73,6 +69,7 @@ abstract class AbstractTest {
     lateinit var restTemplate: TestRestTemplate
 
     @Autowired
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     lateinit var kafkaTemplate: KafkaTemplate<String, Any>
 
     @Autowired
