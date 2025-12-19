@@ -10,7 +10,7 @@ import org.springframework.web.client.RestClient
 
 @Service
 class EuxRinaTerminatorApiClient(
-    @Value("\${endpoint.eux-rina-terminator-api}")
+    @param:Value("\${endpoint.eux-rina-terminator-api}")
     val euxRinaTerminatorApiEndpoint: String,
     val euxRinaTerminatorApiRestClient: RestClient
 ) {
