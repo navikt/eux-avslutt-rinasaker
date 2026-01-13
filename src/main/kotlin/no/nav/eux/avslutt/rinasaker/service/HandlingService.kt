@@ -22,7 +22,7 @@ class HandlingService(
         tilStatus: Rinasak.Status,
         endretBruker: String,
         handling: () -> Unit
-    ) =
+    ): Rinasak =
         try {
             mdc(
                 rinasakId = rinasak.rinasakId,

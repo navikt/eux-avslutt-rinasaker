@@ -37,7 +37,7 @@ class AvsluttService(
             .forEach { it.tryAvsluttGlobalt() }
     }
 
-    fun Rinasak.tryAvsluttGlobalt() =
+    fun Rinasak.tryAvsluttGlobalt(): Rinasak =
         handlingService.tryHandling(
             rinasak = this,
             tilStatus = AVSLUTTET_GLOBALT,
@@ -46,7 +46,7 @@ class AvsluttService(
             euxRinaTerminatorApiClient.avsluttGlobalt(rinasakId)
         }
 
-    fun Rinasak.tryAvsluttLokalt() =
+    fun Rinasak.tryAvsluttLokalt(): Rinasak =
         handlingService.tryHandling(
             rinasak = this,
             tilStatus = AVSLUTTET_LOKALT,

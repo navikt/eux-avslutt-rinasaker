@@ -36,7 +36,7 @@ class KafkaConfig(
 
     private inline fun <reified T : Any> kafkaListenerContainerFactory() =
         ConcurrentKafkaListenerContainerFactory<String, T>()
-            .apply { setConsumerFactory(docConsumerFactory<T>()) }
+            .apply { consumerFactory = docConsumerFactory<T>() }
 
     private inline fun <reified T : Any> docConsumerFactory(): ConsumerFactory<String, T> {
         val jsonDeserializer = JacksonJsonDeserializer(T::class.java).apply {

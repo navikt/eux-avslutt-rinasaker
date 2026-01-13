@@ -69,7 +69,7 @@ class AvsluttRinasakerApi(
         produces = ["application/json"]
     )
     fun prosess(
-        @Parameter(
+        @PathVariable @Parameter(
             description = """
                 Navnet på prosessen som skal startes:   
                     * `sett-uvirksom` - Markerer rinasaker som uvirksomme   
@@ -82,7 +82,6 @@ class AvsluttRinasakerApi(
                     """,
             required = true
         )
-        @PathVariable("prosess")
         prosess: String
     ): ResponseEntity<Unit> {
         clearLocalMdc()

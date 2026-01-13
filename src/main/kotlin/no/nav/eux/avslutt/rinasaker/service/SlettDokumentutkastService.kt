@@ -32,7 +32,7 @@ class SlettDokumentutkastService(
             .forEach { it.trySlettDokumentutkast() }
     }
 
-    fun Rinasak.trySlettDokumentutkast() =
+    fun Rinasak.trySlettDokumentutkast(): Rinasak =
         handlingService.tryHandling(
             rinasak = this,
             tilStatus = UVIRKSOM,
