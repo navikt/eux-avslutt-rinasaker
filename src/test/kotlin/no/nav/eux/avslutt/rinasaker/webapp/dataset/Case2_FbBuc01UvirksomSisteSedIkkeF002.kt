@@ -15,7 +15,8 @@ val fbBuc01UvirksomSisteSedIkkeF002_case = KafkaRinaCase(
             id = 2,
             processDefinitionName = "FB_BUC_01",
             whoami = whoamiNav,
-            creator = caseCreatorOrgNav
+            creator = caseCreatorOrgNav,
+            applicationRoleId = "PO"
         )
     )
 )

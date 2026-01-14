@@ -17,7 +17,8 @@ val ubBuc04UvirksomSedU024Motpart_case = KafkaRinaCase(
             id = caseId,
             processDefinitionName = "UB_BUC_04",
             whoami = whoamiNav,
-            creator = caseCreatorOrgNotNav
+            creator = caseCreatorOrgNotNav,
+            applicationRoleId = "CP"
         )
     )
 )

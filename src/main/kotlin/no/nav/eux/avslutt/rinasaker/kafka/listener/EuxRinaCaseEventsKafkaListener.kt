@@ -77,9 +77,26 @@ class EuxRinaCaseEventsKafkaListener(
             status = status,
         )
     }
-}
 
-val KafkaRinaCaseRestCase.erSakseier get(): Boolean = whoami.id == creator.organisation.id
+    val KafkaRinaCaseRestCase.erSakseier
+        get(): Boolean =
+            when (applicationRoleId) {
+                "PO" -> {
+                    log.info { "Nav er sakseier" }
+                    true
+                }
+
+                "CP" -> {
+                    log.info { "Nav er motpart i saken" }
+                    false
+                }
+
+                else -> {
+                    log.error { "Kunne ikke utlede om Nav er sakseier eller motpart: $applicationRoleId" }
+                    true
+                }
+            }
+}
 
 fun uuid(uuidWithoutDash: String): UUID =
     fromString(uuidString(uuidWithoutDash = uuidWithoutDash))

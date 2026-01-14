@@ -4,7 +4,8 @@ data class KafkaRinaCaseRestCase(
     val id: Int,
     val processDefinitionName: String,
     val whoami: KafkaRinaCaseRestCaseWhoami,
-    val creator: KafkaRinaCaseRestCaseCreator
+    val creator: KafkaRinaCaseRestCaseCreator,
+    val applicationRoleId: String,
 )
 
 data class KafkaRinaCaseRestCaseWhoami(
