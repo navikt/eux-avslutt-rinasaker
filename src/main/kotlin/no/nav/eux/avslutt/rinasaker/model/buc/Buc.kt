@@ -159,5 +159,138 @@ val sBucList = listOf(
     ),
 )
 
+val pBucList = listOf(
+
+    /**
+     * 1. Vi mangler mulighet til å skille mellom motpart og sakseier slik det ønskes.
+     * Er det mulig å finne felles regler?
+     *
+     * 2. Vi mangler telling etter start-sed, er det ok å telle dager for uvirksom på en annen måte?
+     *
+     * 3. Skal det lukkes globalt eller lokalt (for sakseier og motpart?)
+     */
+    Buc(
+        navn = "P_BUC_01",
+        antallDagerBeforeUvirksom = 270,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P6000", "P7000"),
+        sentSedExistsForAvslutningAutomatisk = listOf("P6000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Vi mangler mulighet til å skille mellom motpart og sakseier slik det ønskes.
+     * Er det mulig å finne felles regler?
+     *
+     * 2. Vi mangler telling etter start-sed, er det ok å telle dager for uvirksom på en annen måte?
+     *
+     * 3. Skal det lukkes globalt eller lokalt (for sakseier og motpart?)
+     */
+    Buc(
+        navn = "P_BUC_02",
+        antallDagerBeforeUvirksom = 270,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P6000", "P7000"),
+        sentSedExistsForAvslutningAutomatisk = listOf("P6000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Vi mangler mulighet til å skille mellom motpart og sakseier slik det ønskes.
+     * Er det mulig å finne felles regler?
+     *
+     * 2. Vi mangler telling etter start-sed, er det ok å telle dager for uvirksom på en annen måte?
+     *
+     * 3. Skal det lukkes globalt eller lokalt (for sakseier og motpart?)
+     */
+    Buc(
+        navn = "P_BUC_03",
+        antallDagerBeforeUvirksom = 270,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P6000", "P7000"),
+        sentSedExistsForAvslutningAutomatisk = listOf("P6000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Kan vi telle fra siste aktivitet? eller må det telles fra P8000?
+     * 2. Ok at 12 måneder defineres som 365 dager?
+     */
+    Buc(
+        navn = "P_BUC_05",
+        antallDagerBeforeUvirksom = 365,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P8000"),
+        sentSedExistsForAvslutningAutomatisk = listOf("P8000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Vi har ingen mekansime for å telle fra start-sed, kan vi telle fra siste SED?
+     */
+    Buc(
+        navn = "P_BUC_06",
+        antallDagerBeforeUvirksom = 28,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Lokalt eller globalt avslutt scope?
+     * 2. Kan det sjekkes på aktivitet og sedExists, ikke direkte 7 dager etter P12000?
+     */
+    Buc(
+        navn = "P_BUC_07",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P12000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Lokalt eller globalt avslutt scope?
+     * 2. Kan det sjekkes på aktivitet og sedExists, ikke direkte 7 dager etter P14000?
+     */
+    Buc(
+        navn = "P_BUC_09",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P14000"),
+        sentSedExistsForAvslutningAutomatisk = listOf("P14000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    /**
+     * 1. Lokalt eller globalt avslutt scope?
+     * 2. Kan det sjekkes på aktivitet og sedExists, ikke direkte 7 dager etter P14000?
+     */
+    Buc(
+        navn = "P_BUC_10",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        mottattSedExistsForAvslutningAutomatisk = listOf("P7000"),
+        sentSedExistsForAvslutningAutomatisk = listOf("P7000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    // Arkivering: Er det ok å definere 6 måneder som 180 dager?
+)
+
 val bucList =
     fbBucList + hBucList + ubBucList + sBucList
