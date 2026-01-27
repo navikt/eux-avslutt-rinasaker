@@ -7,173 +7,138 @@ Applikasjonen integrerer med Kafka for å håndtere dokument- og sakshendelser.
 ## Prosessflyt Diagram
 
 ```mermaid
-flowchart TB
-    subgraph Kafka["Kafka Events"]
-        CaseEvent["eux-rina-case-events-v1"]
-        DocEvent["eux-rina-document-events-v1"]
+flowchart LR
+    subgraph Input
+        Kafka[Kafka Events]
     end
 
-    subgraph DataPopulering["Data Populering (Kafka Listener)"]
-        CaseEvent --> LeggTilRinasak["leggTilRinasak()"]
-        DocEvent --> LeggTilDokument["leggTilDokument()"]
-        LeggTilRinasak --> NY_SAK[("NY_SAK")]
-        LeggTilDokument --> SettVirksom["settVirksom()"]
-        SettVirksom -->|"Hvis UVIRKSOM"| NY_SAK
+    subgraph Prosesser
+        Kafka --> NY_SAK
+        NY_SAK -->|sett-uvirksom| UVIRKSOM
+        UVIRKSOM -->|til-avslutning| TIL_AVSLUTNING
+        TIL_AVSLUTNING -->|avslutt| AVSLUTTET
+        AVSLUTTET -->|til-arkivering| TIL_ARKIVERING
+        TIL_ARKIVERING -->|arkiver| ARKIVERT
     end
 
-    subgraph P1["Prosess 1: sett-uvirksom"]
-        NY_SAK -->|"SettUvirksomService\netter X dager uten aktivitet"| UVIRKSOM[("UVIRKSOM")]
+    subgraph Feilhåndtering
+        TIL_AVSLUTNING -.-> HANDLING_FEILET
+        AVSLUTTET -.-> HANDLING_FEILET
+        TIL_ARKIVERING -.-> HANDLING_FEILET
+    end
+```
+
+### Detaljert Flyt
+
+```mermaid
+flowchart TD
+    subgraph Kafka
+        CaseEvent[Case Events]
+        DocEvent[Document Events]
     end
 
-    subgraph P2["Prosess 2: til-avslutning"]
-        UVIRKSOM -->|"TilAvslutningService"| TilAvslutningEval{"Evaluering av\navslutningskriterier"}
-        
-        TilAvslutningEval -->|"sisteSedForAvslutning\nsedExistsForAvslutning\nmottattSedExists\nsentSedExists"| AvsluttMed["avsluttMed(scope)"]
-        TilAvslutningEval -->|"Ingen scope definert\n(motpart)"| AVSLUTTES_AV_MOTPART[("AVSLUTTES_AV_MOTPART")]
-        TilAvslutningEval -->|"opprettOppgave = true\n(ingen kriterier møtt)"| OPPRETT_OPPGAVE[("OPPRETT_OPPGAVE")]
-        
-        AvsluttMed -->|"AVSLUTT_LOKALT"| TIL_AVSLUTNING_LOKALT[("TIL_AVSLUTNING_LOKALT")]
-        AvsluttMed -->|"AVSLUTT_GLOBALT"| TIL_AVSLUTNING_GLOBALT[("TIL_AVSLUTNING_GLOBALT")]
-    end
+    CaseEvent --> PopulerService
+    DocEvent --> PopulerService
+    PopulerService --> NY_SAK
 
-    subgraph P3["Prosess 3: avslutt"]
-        TIL_AVSLUTNING_LOKALT -->|"AvsluttService\n→ EuxRinaTerminatorApi"| AvsluttLokaltResult{"Resultat"}
-        TIL_AVSLUTNING_GLOBALT -->|"AvsluttService\n→ EuxRinaTerminatorApi"| AvsluttGlobaltResult{"Resultat"}
-        
-        AvsluttLokaltResult -->|"Suksess"| AVSLUTTET_LOKALT[("AVSLUTTET_LOKALT")]
-        AvsluttLokaltResult -->|"Conflict"| HANDLING_MANGLER[("HANDLING_MANGLER")]
-        AvsluttLokaltResult -->|"Feil"| HANDLING_FEILET[("HANDLING_FEILET")]
-        
-        AvsluttGlobaltResult -->|"Suksess"| AVSLUTTET_GLOBALT[("AVSLUTTET_GLOBALT")]
-        AvsluttGlobaltResult -->|"Conflict"| HANDLING_MANGLER
-        AvsluttGlobaltResult -->|"Feil"| HANDLING_FEILET
-    end
+    NY_SAK -->|etter X dager uten aktivitet| UVIRKSOM
 
-    subgraph P4["Prosess 4: lag-oppgave"]
-        OPPRETT_OPPGAVE -.->|"Ikke implementert"| OPPGAVE_OPPRETTET[("OPPGAVE_OPPRETTET")]
-    end
+    UVIRKSOM --> TilAvslutningEval{Avslutningskriterier}
+    
+    TilAvslutningEval -->|Kriterier møtt + lokal scope| TIL_AVSLUTNING_LOKALT
+    TilAvslutningEval -->|Kriterier møtt + global scope| TIL_AVSLUTNING_GLOBALT
+    TilAvslutningEval -->|Ingen scope som motpart| AVSLUTTES_AV_MOTPART
+    TilAvslutningEval -->|opprettOppgave=true| OPPRETT_OPPGAVE
+    
+    TIL_AVSLUTNING_LOKALT -->|via API| AVSLUTTET_LOKALT
+    TIL_AVSLUTNING_GLOBALT -->|via API| AVSLUTTET_GLOBALT
+    
+    AVSLUTTET_LOKALT -->|etter X dager| TIL_ARKIVERING
+    AVSLUTTET_GLOBALT -->|etter X dager| TIL_ARKIVERING
+    
+    TIL_ARKIVERING -->|via API| ARKIVERT
 
-    subgraph P5["Prosess 5: til-arkivering"]
-        AVSLUTTET_LOKALT -->|"TilArkiveringService\netter X dager"| TIL_ARKIVERING[("TIL_ARKIVERING")]
-        AVSLUTTET_GLOBALT -->|"TilArkiveringService\netter X dager"| TIL_ARKIVERING
-    end
-
-    subgraph P6["Prosess 6: arkiver"]
-        TIL_ARKIVERING -->|"ArkiverService\n→ EuxRinaTerminatorApi"| ArkiverResult{"Resultat"}
-        ArkiverResult -->|"Suksess"| ARKIVERT[("ARKIVERT")]
-        ArkiverResult -->|"Conflict"| HANDLING_MANGLER
-        ArkiverResult -->|"Feil"| HANDLING_FEILET
-    end
-
-    subgraph P7["Prosess 7: slett-dokumentutkast"]
-        SLETT_DOKUMENTUTKAST[("SLETT_DOKUMENTUTKAST")] -->|"SlettDokumentutkastService\n→ EuxRinaTerminatorApi"| SlettResult{"Resultat"}
-        SlettResult -->|"Suksess"| UVIRKSOM
-        SlettResult -->|"Conflict"| HANDLING_MANGLER
-        SlettResult -->|"Feil"| HANDLING_FEILET
-    end
-
-    subgraph ExternalAPI["Ekstern API"]
-        EuxRinaTerminatorApi["eux-rina-terminator-api"]
-    end
-
-    style Kafka fill:#e1f5fe
-    style DataPopulering fill:#f3e5f5
-    style P1 fill:#fff3e0
-    style P2 fill:#e8f5e9
-    style P3 fill:#fce4ec
-    style P4 fill:#f5f5f5
-    style P5 fill:#e0f2f1
-    style P6 fill:#fff8e1
-    style P7 fill:#fbe9e7
-    style ExternalAPI fill:#e3f2fd
+    SLETT_DOKUMENTUTKAST -->|via API| UVIRKSOM
 ```
 
 ## Status Oversikt
 
+Alle mulige statuser og overganger:
+
 ```mermaid
 stateDiagram-v2
-    [*] --> NY_SAK: Kafka Event\n(Case/Document)
-    
-    NY_SAK --> UVIRKSOM: sett-uvirksom\n(etter X dager)
-    UVIRKSOM --> NY_SAK: Nytt dokument mottatt
-    
-    UVIRKSOM --> TIL_AVSLUTNING_LOKALT: til-avslutning\n(kriterier møtt, lokal scope)
-    UVIRKSOM --> TIL_AVSLUTNING_GLOBALT: til-avslutning\n(kriterier møtt, global scope)
-    UVIRKSOM --> AVSLUTTES_AV_MOTPART: til-avslutning\n(ingen scope, er motpart)
-    UVIRKSOM --> OPPRETT_OPPGAVE: til-avslutning\n(opprettOppgave=true)
-    
-    TIL_AVSLUTNING_LOKALT --> AVSLUTTET_LOKALT: avslutt\n(suksess)
-    TIL_AVSLUTNING_LOKALT --> HANDLING_MANGLER: avslutt\n(conflict)
-    TIL_AVSLUTNING_LOKALT --> HANDLING_FEILET: avslutt\n(feil)
-    
-    TIL_AVSLUTNING_GLOBALT --> AVSLUTTET_GLOBALT: avslutt\n(suksess)
-    TIL_AVSLUTNING_GLOBALT --> HANDLING_MANGLER: avslutt\n(conflict)
-    TIL_AVSLUTNING_GLOBALT --> HANDLING_FEILET: avslutt\n(feil)
-    
-    OPPRETT_OPPGAVE --> OPPGAVE_OPPRETTET: lag-oppgave\n(ikke implementert)
-    
-    AVSLUTTET_LOKALT --> TIL_ARKIVERING: til-arkivering\n(etter X dager)
-    AVSLUTTET_GLOBALT --> TIL_ARKIVERING: til-arkivering\n(etter X dager)
-    
-    TIL_ARKIVERING --> ARKIVERT: arkiver\n(suksess)
-    TIL_ARKIVERING --> HANDLING_MANGLER: arkiver\n(conflict)
-    TIL_ARKIVERING --> HANDLING_FEILET: arkiver\n(feil)
-    
-    SLETT_DOKUMENTUTKAST --> UVIRKSOM: slett-dokumentutkast\n(suksess)
-    SLETT_DOKUMENTUTKAST --> HANDLING_MANGLER: slett-dokumentutkast\n(conflict)
-    SLETT_DOKUMENTUTKAST --> HANDLING_FEILET: slett-dokumentutkast\n(feil)
-    
+    [*] --> NY_SAK : Kafka Event
+
+    NY_SAK --> UVIRKSOM : sett-uvirksom
+    UVIRKSOM --> NY_SAK : Nytt dokument
+
+    UVIRKSOM --> TIL_AVSLUTNING_LOKALT : til-avslutning
+    UVIRKSOM --> TIL_AVSLUTNING_GLOBALT : til-avslutning
+    UVIRKSOM --> AVSLUTTES_AV_MOTPART : til-avslutning
+    UVIRKSOM --> OPPRETT_OPPGAVE : til-avslutning
+
+    TIL_AVSLUTNING_LOKALT --> AVSLUTTET_LOKALT : avslutt
+    TIL_AVSLUTNING_GLOBALT --> AVSLUTTET_GLOBALT : avslutt
+
+    OPPRETT_OPPGAVE --> OPPGAVE_OPPRETTET : lag-oppgave
+
+    AVSLUTTET_LOKALT --> TIL_ARKIVERING : til-arkivering
+    AVSLUTTET_GLOBALT --> TIL_ARKIVERING : til-arkivering
+
+    TIL_ARKIVERING --> ARKIVERT : arkiver
+
+    SLETT_DOKUMENTUTKAST --> UVIRKSOM : slett-dokumentutkast
+
+    state Feilstatuser {
+        HANDLING_MANGLER
+        HANDLING_FEILET
+    }
+
     ARKIVERT --> [*]
     AVSLUTTES_AV_MOTPART --> [*]
-    KAN_IKKE_AVSLUTTES --> [*]
 ```
 
 ## Til-Avslutning Beslutningslogikk
 
+Når en sak er `UVIRKSOM`, evalueres følgende regler i rekkefølge:
+
 ```mermaid
-flowchart TB
-    Start["Rinasak med status UVIRKSOM"] --> CheckRole{"Er NAV sakseier?"}
+flowchart TD
+    Start[UVIRKSOM sak] --> RoleCheck{Er NAV sakseier?}
     
-    CheckRole -->|"Ja (PO)"| CheckSakseierScope{"bucAvsluttScopeSakseier\ndefinert?"}
-    CheckRole -->|"Nei (CP)"| CheckMotpartScope{"bucAvsluttScopeMotpart\ndefinert?"}
+    RoleCheck -->|Ja| SakseierScope{Har sakseier-scope?}
+    RoleCheck -->|Nei| MotpartScope{Har motpart-scope?}
     
-    CheckSakseierScope -->|"Ja"| EvalSakseier["Evaluer kriterier\n(scope fra sakseier)"]
-    CheckSakseierScope -->|"Nei"| AvsluttesAvMotpart["AVSLUTTES_AV_MOTPART"]
+    SakseierScope -->|Nei| AvsluttesAvMotpart[AVSLUTTES_AV_MOTPART]
+    MotpartScope -->|Nei| AvsluttesAvMotpart
     
-    CheckMotpartScope -->|"Ja"| EvalMotpart["Evaluer kriterier\n(scope fra motpart)"]
-    CheckMotpartScope -->|"Nei"| AvsluttesAvMotpart
+    SakseierScope -->|Ja| EvalKriterier
+    MotpartScope -->|Ja| EvalKriterier
     
-    EvalSakseier --> Criteria
-    EvalMotpart --> Criteria
+    EvalKriterier{Sjekk kriterier}
     
-    Criteria{"Avslutningskriterier"}
+    EvalKriterier -->|sisteSedForAvslutning| Avslutt[Sett til avslutning]
+    EvalKriterier -->|sedExistsForAvslutning| Avslutt
+    EvalKriterier -->|mottattSedExists| Avslutt
+    EvalKriterier -->|sentSedExists| Avslutt
+    EvalKriterier -->|Ingen match| OppgaveCheck{opprettOppgave?}
     
-    Criteria -->|"1. sisteSedFraNavAvslutning\n(krevesSendtFraNav=true\nog siste SED fra NAV\nog sedType i liste)"| AvsluttMed["Avslutt med scope"]
+    OppgaveCheck -->|Ja| OpprettOppgave[OPPRETT_OPPGAVE]
+    OppgaveCheck -->|Nei| IngenEndring[Ingen endring]
     
-    Criteria -->|"2. sisteSedForAvslutning\n(krevesSendtFraNav=false\nog sedType i liste)"| AvsluttMed
-    
-    Criteria -->|"3. sedExistsForAvslutning\n(SED i sedExistsForAvslutningAutomatisk)"| AvsluttMed
-    
-    Criteria -->|"4. mottattSedExistsForAvslutning\n(Mottatt SED i liste)"| AvsluttMed
-    
-    Criteria -->|"5. sentSedExistsForAvslutning\n(Sendt SED i liste)"| AvsluttMed
-    
-    Criteria -->|"Ingen kriterier møtt"| CheckOppgave{"opprettOppgave=true?"}
-    
-    CheckOppgave -->|"Ja"| OpprettOppgave["OPPRETT_OPPGAVE"]
-    CheckOppgave -->|"Nei"| IngenEndring["Ingen statusendring"]
-    
-    AvsluttMed --> ScopeCheck{"Scope type"}
-    ScopeCheck -->|"AVSLUTT_LOKALT"| TilAvslutningLokalt["TIL_AVSLUTNING_LOKALT"]
-    ScopeCheck -->|"AVSLUTT_GLOBALT"| TilAvslutningGlobalt["TIL_AVSLUTNING_GLOBALT"]
-    
-    style Start fill:#e1f5fe
-    style AvsluttesAvMotpart fill:#fff3e0
-    style OpprettOppgave fill:#fce4ec
-    style TilAvslutningLokalt fill:#e8f5e9
-    style TilAvslutningGlobalt fill:#e8f5e9
-    style IngenEndring fill:#f5f5f5
+    Avslutt --> ScopeType{Scope type}
+    ScopeType -->|Lokal| TIL_AVSLUTNING_LOKALT
+    ScopeType -->|Global| TIL_AVSLUTNING_GLOBALT
 ```
+
+### Avslutningskriterier
+
+| Kriterie | Beskrivelse |
+|----------|-------------|
+| `sisteSedForAvslutning` | Siste SED er av en bestemt type (og eventuelt sendt fra NAV) |
+| `sedExistsForAvslutning` | En bestemt SED eksisterer i saken |
+| `mottattSedExists` | En mottatt SED av en bestemt type finnes |
+| `sentSedExists` | En sendt SED av en bestemt type finnes |
 
 ## Prosesser i APIet
 
