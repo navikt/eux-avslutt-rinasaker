@@ -60,6 +60,8 @@ class EuxRinaTerminatorApiClient(
             if (e.statusCode == CONFLICT) {
                 val error = e.getResponseBodyAs(ConflictError::class.java)
                 throw HandlingManglerException(error?.message ?: "Handling mangler")
+            } else {
+                log.error(e) { "Uventet feil" }
             }
         }
     }
