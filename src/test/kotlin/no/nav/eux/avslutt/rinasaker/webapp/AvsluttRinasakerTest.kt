@@ -21,6 +21,7 @@ class AvsluttRinasakerTest : AbstractTest() {
         manipulerEndretTidspunkt()
         execute(prosess = "sett-uvirksom")
         verifiserVirksomStatus()
+        manipulerEndretTidspunktUvirksomBucAvslutning()
         execute(prosess = "til-avslutning")
         verifiserTilAvslutningStatus()
         execute(prosess = "avslutt")
@@ -53,13 +54,14 @@ class AvsluttRinasakerTest : AbstractTest() {
         kafkaTopicRinaCaseEvents send ubBuc04UvirksomSedIkkeU024_case
         kafkaTopicRinaCaseEvents send ubBuc04UvirksomSedU024Sakseier_case
         kafkaTopicRinaCaseEvents send ubBuc04UvirksomSedU024Motpart_case
+        kafkaTopicRinaCaseEvents send fbBuc01UvirksomBucEtterAntallDager_case
     }
 
     fun verifiserSakerOpprettet() {
         await untilCallTo {
             rinasakRepository.findAll()
         } has {
-            size == 9
+            size == 10
         }
     }
 
@@ -74,18 +76,19 @@ class AvsluttRinasakerTest : AbstractTest() {
         kafkaTopicRinaDocumentEvents send ubBuc04UvirksomSedIkkeU024_sed
         kafkaTopicRinaDocumentEvents send ubBuc04UvirksomSedU024Sakseier_sed
         kafkaTopicRinaDocumentEvents send ubBuc04UvirksomSedU024Motpart_sed
+        kafkaTopicRinaDocumentEvents send fbBuc01UvirksomBucEtterAntallDager_sed
     }
 
     fun verifiserDokumenterOpprettet() {
         await untilCallTo {
             dokumentRepository.findAll()
         } has {
-            size == 10
+            size == 11
         }
     }
 
     fun manipulerEndretTidspunkt() {
-        for (i in (1..2) + (5..10))
+        for (i in (1..2) + (5..11))
             dokumentRepository manipulerEndretTidspunktForSed i
         dokumentRepository.case3_manipulerOpprettetTidspunkt()
     }
@@ -100,6 +103,11 @@ class AvsluttRinasakerTest : AbstractTest() {
         7 er UVIRKSOM
         8 er UVIRKSOM
         9 er UVIRKSOM
+        10 er UVIRKSOM
+    }
+
+    fun manipulerEndretTidspunktUvirksomBucAvslutning() {
+        rinasakRepository manipulerEndretTidspunktForCaseIdUvirksomBucAvslutning 10
     }
 
     fun verifiserTilAvslutningStatus() {
@@ -112,6 +120,7 @@ class AvsluttRinasakerTest : AbstractTest() {
         7 er UVIRKSOM
         8 er AVSLUTTES_AV_MOTPART
         9 er TIL_AVSLUTNING_GLOBALT
+        10 er TIL_AVSLUTNING_GLOBALT
     }
 
     fun verifiserAvsluttStatus() {
@@ -124,16 +133,18 @@ class AvsluttRinasakerTest : AbstractTest() {
         7 er UVIRKSOM
         8 er AVSLUTTES_AV_MOTPART
         9 er AVSLUTTET_GLOBALT
+        10 er AVSLUTTET_GLOBALT
     }
 
     fun verifiserAvsluttKall() {
         verifiserEksekvert("/api/v1/rinasaker/1/avsluttGlobalt")
         verifiserEksekvert("/api/v1/rinasaker/5/avsluttLokalt")
         verifiserEksekvert("/api/v1/rinasaker/9/avsluttGlobalt")
+        verifiserEksekvert("/api/v1/rinasaker/10/avsluttGlobalt")
     }
 
     fun manipulerEndretTidspunktArkivering() {
-        for (i in (1..2) + (4..9))
+        for (i in (1..2) + (4..10))
             rinasakRepository manipulerEndretTidspunktForCaseIdArkivering i
         rinasakRepository.case3_manipulerEndretTidspunktArkivering()
     }
@@ -148,6 +159,7 @@ class AvsluttRinasakerTest : AbstractTest() {
         7 er UVIRKSOM
         8 er AVSLUTTES_AV_MOTPART
         9 er TIL_ARKIVERING
+        10 er TIL_ARKIVERING
     }
 
     fun verifiserArkivertStatus() {
@@ -160,11 +172,13 @@ class AvsluttRinasakerTest : AbstractTest() {
         7 er UVIRKSOM
         8 er AVSLUTTES_AV_MOTPART
         9 er ARKIVERT
+        10 er ARKIVERT
     }
 
     fun verifiserArkivertKall() {
         verifiserEksekvert("/api/v1/rinasaker/1/arkiver")
         verifiserEksekvert("/api/v1/rinasaker/5/arkiver")
         verifiserEksekvert("/api/v1/rinasaker/9/arkiver")
+        verifiserEksekvert("/api/v1/rinasaker/10/arkiver")
     }
 }

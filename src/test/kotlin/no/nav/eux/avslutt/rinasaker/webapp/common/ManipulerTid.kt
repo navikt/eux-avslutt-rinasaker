@@ -15,3 +15,8 @@ infix fun RinasakRepository.manipulerEndretTidspunktForCaseIdArkivering(caseId: 
     findByRinasakId(caseId)!!
         .copy(endretTidspunkt = now().minusDays(dagerArkivering))
         .let { save(it) }
+
+infix fun RinasakRepository.manipulerEndretTidspunktForCaseIdUvirksomBucAvslutning(caseId: Int): Rinasak =
+    findByRinasakId(caseId)!!
+        .copy(endretTidspunkt = now().minusDays(dagerUvirksomBucAvslutning))
+        .let { save(it) }

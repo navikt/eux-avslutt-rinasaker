@@ -13,6 +13,7 @@ data class Buc(
     val sedExistsForAvslutningAutomatisk: List<String> = emptyList(),
     val mottattSedExistsForAvslutningAutomatisk: List<String> = emptyList(),
     val sentSedExistsForAvslutningAutomatisk: List<String> = emptyList(),
+    val avsluttUvirksomBucEtterAntallDager: Int? = null,
     val bucAvsluttScopeSakseier: BucAvsluttScope? = null,
     val bucAvsluttScopeMotpart: BucAvsluttScope? = null,
     val opprettOppgave: Boolean,
@@ -44,6 +45,7 @@ val fbBucList = listOf(
         sisteSedForAvslutningAutomatisk = listOf("F002"),
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         sisteSedForAvslutningAutomatiskKrevesSendtFraNav = true,
+        avsluttUvirksomBucEtterAntallDager = 300,
         opprettOppgave = true,
     ),
     Buc(
