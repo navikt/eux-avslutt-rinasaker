@@ -45,7 +45,7 @@ val fbBucList = listOf(
         sisteSedForAvslutningAutomatisk = listOf("F002"),
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_GLOBALT,
         sisteSedForAvslutningAutomatiskKrevesSendtFraNav = true,
-        avsluttUvirksomBucEtterAntallDager = 300,
+        avsluttUvirksomBucEtterAntallDager = 270,
         opprettOppgave = true,
     ),
     Buc(
