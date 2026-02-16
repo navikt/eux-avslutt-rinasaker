@@ -53,9 +53,15 @@ class TilAvslutningService(
             sedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
             mottattSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
             sentSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
+            uvirksomBucSkalAvsluttes(rinasak) -> rinasak avsluttMed scope
             opprettOppgave -> rinasak.lagOppgave()
         }
     }
+
+    fun Buc.uvirksomBucSkalAvsluttes(rinasak: Rinasak): Boolean =
+        avsluttUvirksomBucEtterAntallDager != null
+                && rinasak.endretTidspunkt.plusDays(avsluttUvirksomBucEtterAntallDager.toLong())
+                    .isBefore(now())
 
     fun Buc.sisteSedFraNavAvslutning(dokumenter: List<Dokument>) =
         sisteSedForAvslutningAutomatiskKrevesSendtFraNav

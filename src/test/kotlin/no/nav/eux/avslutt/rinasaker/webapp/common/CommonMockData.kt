@@ -14,6 +14,7 @@ const val dagerUvirksom: Long = 121
 const val dagerVirksom: Long = 89
 
 const val dagerArkivering: Long = 401
+const val dagerUvirksomBucAvslutning: Long = 301
 
 const val kafkaTopicRinaCaseEvents = "eessibasis.eux-rina-case-events-v1"
 const val kafkaTopicRinaDocumentEvents = "eessibasis.eux-rina-document-events-v1"
