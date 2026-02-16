@@ -161,6 +161,76 @@ val sBucList = listOf(
 
 val pBucList = listOf(
 
+    Buc(
+        navn = "P_BUC_01",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P7000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    Buc(
+        navn = "P_BUC_02",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P7000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    Buc(
+        navn = "P_BUC_03",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P7000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    Buc(
+        navn = "P_BUC_05",
+        antallDagerBeforeUvirksom = 365,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P8000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    Buc(
+        navn = "P_BUC_06",
+        antallDagerBeforeUvirksom = 28,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P5000", "P6000", "P7000", "P10000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    Buc(
+        navn = "P_BUC_09",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P14000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
+    Buc(
+        navn = "P_BUC_10",
+        antallDagerBeforeUvirksom = 7,
+        bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
+        bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
+        sedExistsForAvslutningAutomatisk = listOf("P7000"),
+        antallDagerBeforeArkivering = 180,
+        opprettOppgave = false,
+    ),
+
     /**
      * 1. Vi mangler mulighet til å skille mellom motpart og sakseier slik det ønskes.
      * Er det mulig å finne felles regler?
