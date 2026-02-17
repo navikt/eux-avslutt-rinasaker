@@ -29,7 +29,7 @@ enum class BucAvsluttScope(
 val hBucList = listOf(
     Buc(
         navn = "H_BUC_01",
-        antallDagerBeforeUvirksom = 90,
+        antallDagerBeforeUvirksom = 180,
         sisteSedForAvslutningAutomatisk = listOf("H002"),
         bucAvsluttScopeSakseier = BucAvsluttScope.AVSLUTT_LOKALT,
         bucAvsluttScopeMotpart = BucAvsluttScope.AVSLUTT_LOKALT,
