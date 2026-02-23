@@ -54,7 +54,7 @@ class TilAvslutningService(
             mottattSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
             sentSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
             uvirksomBucSkalAvsluttes(rinasak) -> rinasak avsluttMed scope
-//            opprettOppgave -> rinasak.lagOppgave() midlertidig tatt bort, avventer avklaring fra Siri/fag
+            opprettOppgave -> rinasak.lagOppgave()
         }
     }
 
