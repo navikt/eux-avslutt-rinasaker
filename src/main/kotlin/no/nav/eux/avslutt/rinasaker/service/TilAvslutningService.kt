@@ -58,10 +58,16 @@ class TilAvslutningService(
         }
     }
 
-    fun Buc.uvirksomBucSkalAvsluttes(rinasak: Rinasak): Boolean =
-        avsluttUvirksomBucEtterAntallDager != null
+    fun Buc.uvirksomBucSkalAvsluttes(rinasak: Rinasak): Boolean {
+        val avsluttes = avsluttUvirksomBucEtterAntallDager != null
                 && rinasak.endretTidspunkt.plusDays(avsluttUvirksomBucEtterAntallDager.toLong())
-                    .isBefore(now())
+            .isBefore(now())
+        if (avsluttes) {
+            mdc(bucType = navn, rinasakId = rinasak.rinasakId)
+            log.info { "Uvirksom BUC tvinges avsluttet..." }
+        }
+        return avsluttes
+    }
 
     fun Buc.sisteSedFraNavAvslutning(dokumenter: List<Dokument>) =
         sisteSedForAvslutningAutomatiskKrevesSendtFraNav
