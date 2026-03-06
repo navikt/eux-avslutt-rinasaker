@@ -112,7 +112,7 @@ class AvsluttRinasakerTest : AbstractTest() {
 
     fun verifiserTilAvslutningStatus() {
         1 er TIL_AVSLUTNING_GLOBALT
-        2 er OPPRETT_OPPGAVE
+        2 er UVIRKSOM
         3 er NY_SAK
         4 er AVSLUTTES_AV_MOTPART
         5 er TIL_AVSLUTNING_LOKALT
@@ -125,7 +125,7 @@ class AvsluttRinasakerTest : AbstractTest() {
 
     fun verifiserAvsluttStatus() {
         1 er AVSLUTTET_GLOBALT
-        2 er OPPRETT_OPPGAVE
+        2 er UVIRKSOM
         3 er NY_SAK
         4 er AVSLUTTES_AV_MOTPART
         5 er AVSLUTTET_LOKALT
@@ -151,7 +151,7 @@ class AvsluttRinasakerTest : AbstractTest() {
 
     fun verifiserTilArkiveringStatus() {
         1 er TIL_ARKIVERING
-        2 er OPPRETT_OPPGAVE
+        2 er UVIRKSOM
         3 er NY_SAK
         4 er AVSLUTTES_AV_MOTPART
         5 er TIL_ARKIVERING
@@ -164,7 +164,7 @@ class AvsluttRinasakerTest : AbstractTest() {
 
     fun verifiserArkivertStatus() {
         1 er ARKIVERT
-        2 er OPPRETT_OPPGAVE
+        2 er UVIRKSOM
         3 er NY_SAK
         4 er AVSLUTTES_AV_MOTPART
         5 er ARKIVERT
