@@ -2,17 +2,6 @@
 
 ## Build & Test
 
-```bash
-# Build and run all tests (requires Docker for Testcontainers)
-mvn clean install --settings ./.github/settings.xml --no-transfer-progress -B
-
-# Run a single test class
-mvn test -pl . -Dtest="AvsluttRinasakerTest" --settings ./.github/settings.xml
-
-# Compile only (no tests)
-mvn compile --settings ./.github/settings.xml
-```
-
 Java 25 and Docker are required. Tests use Testcontainers with PostgreSQL 15 and Kafka (apache/kafka-native).
 
 ## Architecture
