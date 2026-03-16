@@ -48,7 +48,6 @@ flowchart TD
     TilAvslutningEval -->|Kriterier møtt + lokal scope| TIL_AVSLUTNING_LOKALT
     TilAvslutningEval -->|Kriterier møtt + global scope| TIL_AVSLUTNING_GLOBALT
     TilAvslutningEval -->|Ingen scope som motpart| AVSLUTTES_AV_MOTPART
-    TilAvslutningEval -->|opprettOppgave=true| OPPRETT_OPPGAVE
     
     TIL_AVSLUTNING_LOKALT -->|via API| AVSLUTTET_LOKALT
     TIL_AVSLUTNING_GLOBALT -->|via API| AVSLUTTET_GLOBALT
@@ -75,12 +74,9 @@ stateDiagram-v2
     UVIRKSOM --> TIL_AVSLUTNING_LOKALT : til-avslutning
     UVIRKSOM --> TIL_AVSLUTNING_GLOBALT : til-avslutning
     UVIRKSOM --> AVSLUTTES_AV_MOTPART : til-avslutning
-    UVIRKSOM --> OPPRETT_OPPGAVE : til-avslutning
 
     TIL_AVSLUTNING_LOKALT --> AVSLUTTET_LOKALT : avslutt
     TIL_AVSLUTNING_GLOBALT --> AVSLUTTET_GLOBALT : avslutt
-
-    OPPRETT_OPPGAVE --> OPPGAVE_OPPRETTET : lag-oppgave
 
     AVSLUTTET_LOKALT --> TIL_ARKIVERING : til-arkivering
     AVSLUTTET_GLOBALT --> TIL_ARKIVERING : til-arkivering
@@ -121,10 +117,7 @@ flowchart TD
     EvalKriterier -->|sedExistsForAvslutning| Avslutt
     EvalKriterier -->|mottattSedExists| Avslutt
     EvalKriterier -->|sentSedExists| Avslutt
-    EvalKriterier -->|Ingen match| OppgaveCheck{opprettOppgave?}
-    
-    OppgaveCheck -->|Ja| OpprettOppgave[OPPRETT_OPPGAVE]
-    OppgaveCheck -->|Nei| IngenEndring[Ingen endring]
+    EvalKriterier -->|Ingen match| IngenEndring[Ingen endring]
     
     Avslutt --> ScopeType{Scope type}
     ScopeType -->|Lokal| TIL_AVSLUTNING_LOKALT
@@ -156,11 +149,6 @@ bruker `TilAvslutningService` for å utføre operasjonen.
 
 Avslutter rinasaker ved å oppdatere statusen til saken og eventuelt arkivere den. Denne
 prosessen bruker `AvsluttService` for å utføre operasjonen.
-
-### Lag Oppgave
-
-Lager oppgave for manuell avslutning av rinasaker. Denne prosessen er foreløpig ikke
-implementert, men vil lage en oppgave som krever manuell intervensjon.
 
 ### Til Arkivering
 
@@ -201,7 +189,6 @@ APIet er dokumentert med Swagger og tilbyr følgende endepunkt for å starte pro
     * `sett-uvirksom` - Markerer rinasaker som uvirksomme
     * `til-avslutning` - Sett rinasaker til avslutning
     * `avslutt` - Avslutter rinasaker
-    * `lag-oppgave` - Lager oppgave for manuell avslutning av rinasaker
     * `til-arkivering` - Setter rinasaker til arkivering
     * `arkiver` - Arkiverer rinasaker
     * `slett-dokumentutkast` - Sletter dokumentutkast for X001
@@ -222,5 +209,4 @@ APIet er dokumentert med Swagger og tilbyr følgende endepunkt for å starte pro
 | `sentSedExistsForAvslutningAutomatisk`             | Liste over sendte SED-er for automatisk avslutning, hvis SED i lista eksisterer kan det avsluttes automatisk hvis BUC er uvirksom       | `["H070"]`                        |
 | `bucAvsluttScopeSakseier`                          | Angir om saken skal avsluttes lokalt eller globalt automatisk når vi er sakseier, hvis `null` vil ikke saken avsluttes automatisk       | `BucAvsluttScope.AVSLUTT_LOKALT`  |
 | `bucAvsluttScopeMotpart`                           | Angir om saken skal avsluttes lokalt eller globalt automatisk når vi er motpart, hvis `null` vil ikke saken avsluttes automatisk        | `BucAvsluttScope.AVSLUTT_GLOBALT` |
-| `opprettOppgave`                                   | Hvis ikke kriterier er møtt og saken er uvirksom kan det lages oppgave, aktivt ved `true`                                               | `true`                            |
 | `avsluttUvirksomBucEtterAntallDager`               | Antall dager en BUC kan være uvirksom før den automatisk avsluttes uten at andre kriterier trenger å være oppfylt, hvis `null` er regelen inaktiv | `300`                             |

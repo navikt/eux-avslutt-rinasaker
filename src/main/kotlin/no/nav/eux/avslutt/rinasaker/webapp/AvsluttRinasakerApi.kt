@@ -75,7 +75,6 @@ class AvsluttRinasakerApi(
                     * `sett-uvirksom` - Markerer rinasaker som uvirksomme   
                     * `til-avslutning` - Sett rinasaker til avslutning
                     * `avslutt' - Avslutter rinasaker
-                    * `lag-oppgave` - Lager oppgave for manuell avslutning av rinasaker
                     * `til-arkivering` - Setter rinasaker til arkivering
                     * `arkiver` - Arkiverer rinasaker
                     * `slett-dokumentutkast` - Sletter dokumentutkast for X001
@@ -91,7 +90,6 @@ class AvsluttRinasakerApi(
             "sett-uvirksom" -> settUvirksomService.settRinasakerUvirksom()
             "til-avslutning" -> settTilAvslutningService.settRinasakerTilAvslutning()
             "avslutt" -> avsluttService.avsluttRinasaker()
-            "lag-oppgave" -> log.warn { "prosess ikke implementert" }
             "til-arkivering" -> tilArkiveringService.settRinasakerTilArkivering()
             "arkiver" -> arkiverService.arkiverRinasaker()
             "slett-dokumentutkast" -> slettDokumentutkastService.slettDokumentutkast()

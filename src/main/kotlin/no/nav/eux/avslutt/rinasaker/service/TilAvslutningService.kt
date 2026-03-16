@@ -54,7 +54,6 @@ class TilAvslutningService(
             mottattSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
             sentSedExistsForAvslutning(dokumenter) -> rinasak avsluttMed scope
             uvirksomBucSkalAvsluttes(rinasak) -> rinasak avsluttMed scope
-//            opprettOppgave -> rinasak.lagOppgave()
         }
     }
 
@@ -96,18 +95,6 @@ class TilAvslutningService(
 
     fun List<Dokument>.sisteSedSendtFraNav() =
         maxByOrNull { it.endretTidspunkt }?.status == Dokument.Status.SENT
-
-    fun Rinasak.lagOppgave() {
-        mdc(rinasakId = rinasakId, bucType = bucType)
-        rinasakRepository.save(
-            copy(
-                status = Rinasak.Status.OPPRETT_OPPGAVE,
-                endretBruker = "til-avslutning",
-                endretTidspunkt = now()
-            )
-        )
-        log.info { "Oppgave vil bli opprettet for rinasak" }
-    }
 
     infix fun Rinasak.avsluttMed(bucAvsluttScope: BucAvsluttScope) {
         mdc(rinasakId = rinasakId, bucType = bucType)
