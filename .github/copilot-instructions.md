@@ -4,6 +4,12 @@
 
 Java 25 and Docker are required. Tests use Testcontainers with PostgreSQL 15 and Kafka (apache/kafka-native).
 
+### Git workflow
+
+- **NEVER** commit to `main`
+- **NEVER** push `main`
+- Always work on a branch
+
 ## Architecture
 
 This is a Kotlin Spring Boot backend that automates closing RINA cases (rinasaker) in the EESSI system. It implements a **state machine** where each Rinasak progresses through statuses driven by scheduled NAIS jobs calling the API.
