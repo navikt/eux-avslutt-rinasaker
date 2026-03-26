@@ -32,6 +32,7 @@ data class Rinasak(
         AVSLUTTET_GLOBALT,
         AVSLUTTET_LOKALT,
         KAN_IKKE_AVSLUTTES,
+        OPPRETT_OPPGAVE,
         AVSLUTTES_AV_MOTPART,
         TIL_ARKIVERING,
         ARKIVERT,
