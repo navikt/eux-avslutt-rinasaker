@@ -29,6 +29,7 @@ fun mockResponsePost(request: RecordedRequest) =
         "/api/v1/rinasaker/8/arkiver" -> getEuxRinaTerminatorApiNoContent()
         "/api/v1/rinasaker/9/arkiver" -> getEuxRinaTerminatorApiNoContent()
         "/api/v1/rinasaker/10/arkiver" -> getEuxRinaTerminatorApiNoContent()
+        "/slack/webhook" -> slackWebhookResponse()
         else -> defaultResponse()
     }
 

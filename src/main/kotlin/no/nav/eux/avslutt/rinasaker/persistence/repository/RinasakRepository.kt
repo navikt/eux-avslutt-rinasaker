@@ -21,4 +21,29 @@ interface RinasakRepository : JpaRepository<Rinasak, UUID> {
         bucType: String,
         endretTidspunkt: LocalDateTime
     ): List<Rinasak>
+
+    fun countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(
+        status: Rinasak.Status,
+        fra: LocalDateTime,
+        til: LocalDateTime
+    ): Long
+
+    fun findAllByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(
+        status: Rinasak.Status,
+        fra: LocalDateTime,
+        til: LocalDateTime
+    ): List<Rinasak>
+
+    fun findAllByStatusInAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(
+        statuses: List<Rinasak.Status>,
+        fra: LocalDateTime,
+        til: LocalDateTime
+    ): List<Rinasak>
+
+    fun countByOpprettetTidspunktGreaterThanEqualAndOpprettetTidspunktLessThan(
+        fra: LocalDateTime,
+        til: LocalDateTime
+    ): Long
+
+    fun countByStatus(status: Rinasak.Status): Long
 }

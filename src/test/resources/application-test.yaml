@@ -20,6 +20,10 @@ no.nav.security.jwt:
 endpoint:
   eux-rina-terminator-api: http://localhost:9500/mock
 
+slack:
+  webhooks:
+    driftsoppfolging: http://localhost:9500/mock/slack/webhook
+
 kafka:
   topics:
     eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1

@@ -38,3 +38,6 @@ application:
 
   eux-avslutt-rinasaker-slett-dokumentutkast-naisjob:
     name: eux-avslutt-rinasaker-slett-dok-utkast-naisjob-q2
+
+  eux-avslutt-rinasaker-rapport-naisjob:
+    name: eux-avslutt-rinasaker-rapport-naisjob-q2

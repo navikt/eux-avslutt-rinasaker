@@ -75,7 +75,10 @@ spec:
         - application: {{ application.eux-avslutt-rinasaker-arkiver-naisjob.name }}
         - application: {{ application.eux-avslutt-rinasaker-til-arkivering-naisjob.name }}
         - application: {{ application.eux-avslutt-rinasaker-slett-dokumentutkast-naisjob.name }}
+        - application: {{ application.eux-avslutt-rinasaker-rapport-naisjob.name }}
     outbound:
+      external:
+        - host: hooks.slack.com
       rules:
         - application: {{ application.eux-rina-terminator-api.name }}
   env:
@@ -88,3 +91,5 @@ spec:
       value: {{ application.eux-rina-terminator-api.endpoint }}
     - name: EUX_RINA_TERMINATOR_API_SCOPE
       value: {{ application.eux-rina-terminator-api.scope }}
+  envFrom:
+    - secret: slack-team-eessi-nav-driftsoppfolging-webhook
