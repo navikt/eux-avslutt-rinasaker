@@ -66,4 +66,8 @@ no.nav.security.jwt:
           client-jwk: ${AZURE_APP_JWK}
           client-auth-method: private_key_jwt
 
+slack:
+  webhooks:
+    driftsoppfolging: ${SLACK_WEBHOOK_DRIFTSOPPFOLGING:}
+
 logging.level.org.hibernate.orm.connections.pooling: warn

@@ -37,6 +37,8 @@ class AvsluttRinasakerTest : AbstractTest() {
         execute(prosess = "arkiver")
         verifiserArkivertStatus()
         verifiserArkivertKall()
+        sendRapport()
+        verifiserRapportSendt()
     }
 
     fun isRunning() {
@@ -180,5 +182,17 @@ class AvsluttRinasakerTest : AbstractTest() {
         verifiserEksekvert("/api/v1/rinasaker/5/arkiver")
         verifiserEksekvert("/api/v1/rinasaker/9/arkiver")
         verifiserEksekvert("/api/v1/rinasaker/10/arkiver")
+    }
+
+    fun sendRapport() {
+        execute(prosess = "rapport")
+    }
+
+    fun verifiserRapportSendt() {
+        val rapportBody = requestBodies["/slack/webhook"]
+        assertThat(rapportBody).isNotNull()
+        assertThat(rapportBody).contains("Månedlig rapport")
+        assertThat(rapportBody).contains("Oppsummering forrige måned")
+        assertThat(rapportBody).contains("Nåværende status")
     }
 }

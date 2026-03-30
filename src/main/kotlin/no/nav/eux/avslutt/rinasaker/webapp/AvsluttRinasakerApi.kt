@@ -27,7 +27,8 @@ class AvsluttRinasakerApi(
     val avsluttService: AvsluttService,
     val arkiverService: ArkiverService,
     val tilArkiveringService: TilArkiveringService,
-    val slettDokumentutkastService: SlettDokumentutkastService
+    val slettDokumentutkastService: SlettDokumentutkastService,
+    val rapportService: RapportService
 ) {
 
     val log = logger {}
@@ -78,6 +79,7 @@ class AvsluttRinasakerApi(
                     * `til-arkivering` - Setter rinasaker til arkivering
                     * `arkiver` - Arkiverer rinasaker
                     * `slett-dokumentutkast` - Sletter dokumentutkast for X001
+                    * `rapport` - Sender månedlig Slack-rapport
                     """,
             required = true
         )
@@ -93,6 +95,7 @@ class AvsluttRinasakerApi(
             "til-arkivering" -> tilArkiveringService.settRinasakerTilArkivering()
             "arkiver" -> arkiverService.arkiverRinasaker()
             "slett-dokumentutkast" -> slettDokumentutkastService.slettDokumentutkast()
+            "rapport" -> rapportService.sendRapport()
             else -> {
                 log.error { "ukjent prosess: $prosess" }
                 return ResponseEntity(BAD_REQUEST)
