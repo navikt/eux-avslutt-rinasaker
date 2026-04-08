@@ -9,16 +9,14 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.resttestclient.TestRestTemplate
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
-import org.springframework.boot.resttestclient.exchange
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpMethod.POST
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.web.servlet.client.RestTestClient
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.kafka.KafkaContainer
@@ -34,7 +32,7 @@ import kotlin.test.assertEquals
 @EnableMockOAuth2Server
 @Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@AutoConfigureTestRestTemplate
+@AutoConfigureRestTestClient
 abstract class AbstractTest {
 
     companion object {
@@ -60,13 +58,11 @@ abstract class AbstractTest {
         }
     }
 
-    fun httpEntity() = voidHttpEntity(mockOAuth2Server)
-
     @Autowired
     lateinit var mockOAuth2Server: MockOAuth2Server
 
     @Autowired
-    lateinit var restTemplate: TestRestTemplate
+    lateinit var restTestClient: RestTestClient
 
     @Autowired
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
@@ -82,12 +78,11 @@ abstract class AbstractTest {
     lateinit var requestBodies: RequestBodies
 
     fun execute(prosess: String) {
-        restTemplate
-            .exchange<Void>(
-                "/api/v1/prosesser/$prosess/execute",
-                POST,
-                httpEntity()
-            )
+        restTestClient
+            .post()
+            .uri("/api/v1/prosesser/$prosess/execute")
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
     }
 
     infix fun Int.er(expected: Status) {
