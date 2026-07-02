@@ -9,6 +9,7 @@ import no.nav.eux.avslutt.rinasaker.model.entity.Rinasak.Status.*
 import no.nav.eux.avslutt.rinasaker.persistence.repository.RinasakRepository
 import no.nav.eux.logging.mdc
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime.now
 
 @Service
 class AvsluttService(
@@ -38,21 +39,48 @@ class AvsluttService(
     }
 
     fun Rinasak.tryAvsluttGlobalt(): Rinasak =
-        handlingService.tryHandling(
-            rinasak = this,
-            tilStatus = AVSLUTTET_GLOBALT,
-            endretBruker = "avslutt"
-        ) {
-            euxRinaTerminatorApiClient.avsluttGlobalt(rinasakId)
-        }
+        if (erAvsluttetIRina())
+            alleredeAvsluttet()
+        else
+            handlingService.tryHandling(
+                rinasak = this,
+                tilStatus = AVSLUTTET_GLOBALT,
+                endretBruker = "avslutt"
+            ) {
+                euxRinaTerminatorApiClient.avsluttGlobalt(rinasakId)
+            }
 
     fun Rinasak.tryAvsluttLokalt(): Rinasak =
-        handlingService.tryHandling(
-            rinasak = this,
-            tilStatus = AVSLUTTET_LOKALT,
-            endretBruker = "avslutt"
-        ) {
-            euxRinaTerminatorApiClient.avsluttLokalt(rinasakId)
+        if (erAvsluttetIRina())
+            alleredeAvsluttet()
+        else
+            handlingService.tryHandling(
+                rinasak = this,
+                tilStatus = AVSLUTTET_LOKALT,
+                endretBruker = "avslutt"
+            ) {
+                euxRinaTerminatorApiClient.avsluttLokalt(rinasakId)
+            }
+
+    fun Rinasak.erAvsluttetIRina(): Boolean =
+        try {
+            euxRinaTerminatorApiClient.erAvsluttet(rinasakId)
+        } catch (e: Exception) {
+            mdc(rinasakId = rinasakId, bucType = bucType)
+            log.warn(e) { "Kunne ikke sjekke om rinasak er avsluttet i RINA, forsøker avslutning" }
+            false
         }
+
+    fun Rinasak.alleredeAvsluttet(): Rinasak {
+        mdc(rinasakId = rinasakId, bucType = bucType)
+        log.info { "Rinasak allerede avsluttet i RINA" }
+        return rinasakRepository.save(
+            copy(
+                status = ALLEREDE_AVSLUTTET,
+                endretBruker = "avslutt",
+                endretTidspunkt = now()
+            )
+        )
+    }
 
 }

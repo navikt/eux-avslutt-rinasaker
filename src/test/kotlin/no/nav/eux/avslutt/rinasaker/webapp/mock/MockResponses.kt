@@ -39,14 +39,17 @@ fun mockResponsePatch(request: RecordedRequest) =
     }
 
 fun mockResponseGet(request: RecordedRequest) =
-    when (request.uriEndsWith) {
-        "/api/v1/rinasaker/1/status" -> getEuxRinaTerminatorApiStatusResponseTrue()
-        "/api/v1/rinasaker/2/status" -> getEuxRinaTerminatorApiStatusResponseTrue()
-        "/api/v1/rinasaker/3/status" -> getEuxRinaTerminatorApiStatusResponseTrue()
-        "/api/v1/rinasaker/4/status" -> getEuxRinaTerminatorApiStatusResponseTrue()
-        "/api/v1/rinasaker/5/status" -> getEuxRinaTerminatorApiStatusResponseFalse()
+    when {
+        request.uriEndsWith in alleredeAvsluttetStatusUrier -> getEuxRinaTerminatorApiStatusResponseTrue()
+        request.uriEndsWith.endsWith("/status") -> getEuxRinaTerminatorApiStatusResponseFalse()
         else -> defaultResponse()
     }
+
+val alleredeAvsluttetStatusUrier = setOf(
+    "/api/v1/rinasaker/101/status",
+    "/api/v1/rinasaker/102/status",
+    "/api/v1/rinasaker/103/status",
+)
 
 fun mockResponseDelete(request: RecordedRequest) =
     when (request.uriEndsWith) {

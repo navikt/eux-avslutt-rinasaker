@@ -48,9 +48,12 @@ flowchart TD
     TilAvslutningEval -->|Kriterier møtt + lokal scope| TIL_AVSLUTNING_LOKALT
     TilAvslutningEval -->|Kriterier møtt + global scope| TIL_AVSLUTNING_GLOBALT
     TilAvslutningEval -->|Ingen scope som motpart| AVSLUTTES_AV_MOTPART
+    TilAvslutningEval -->|Allerede avsluttet i RINA| ALLEREDE_AVSLUTTET
     
     TIL_AVSLUTNING_LOKALT -->|via API| AVSLUTTET_LOKALT
     TIL_AVSLUTNING_GLOBALT -->|via API| AVSLUTTET_GLOBALT
+    TIL_AVSLUTNING_LOKALT -->|Allerede avsluttet i RINA| ALLEREDE_AVSLUTTET
+    TIL_AVSLUTNING_GLOBALT -->|Allerede avsluttet i RINA| ALLEREDE_AVSLUTTET
     
     AVSLUTTET_LOKALT -->|etter X dager| TIL_ARKIVERING
     AVSLUTTET_GLOBALT -->|etter X dager| TIL_ARKIVERING
@@ -74,9 +77,12 @@ stateDiagram-v2
     UVIRKSOM --> TIL_AVSLUTNING_LOKALT : til-avslutning
     UVIRKSOM --> TIL_AVSLUTNING_GLOBALT : til-avslutning
     UVIRKSOM --> AVSLUTTES_AV_MOTPART : til-avslutning
+    UVIRKSOM --> ALLEREDE_AVSLUTTET : til-avslutning (allerede avsluttet i RINA)
 
     TIL_AVSLUTNING_LOKALT --> AVSLUTTET_LOKALT : avslutt
     TIL_AVSLUTNING_GLOBALT --> AVSLUTTET_GLOBALT : avslutt
+    TIL_AVSLUTNING_LOKALT --> ALLEREDE_AVSLUTTET : avslutt (allerede avsluttet i RINA)
+    TIL_AVSLUTNING_GLOBALT --> ALLEREDE_AVSLUTTET : avslutt (allerede avsluttet i RINA)
 
     AVSLUTTET_LOKALT --> TIL_ARKIVERING : til-arkivering
     AVSLUTTET_GLOBALT --> TIL_ARKIVERING : til-arkivering
@@ -92,6 +98,7 @@ stateDiagram-v2
 
     ARKIVERT --> [*]
     AVSLUTTES_AV_MOTPART --> [*]
+    ALLEREDE_AVSLUTTET --> [*]
 ```
 
 ## Til-Avslutning Beslutningslogikk
@@ -143,12 +150,15 @@ bruker `SettUvirksomService` for å utføre operasjonen.
 ### Til Avslutning
 
 Setter rinasaker til avslutning ved å oppdatere statusen til saken. Denne prosessen
-bruker `TilAvslutningService` for å utføre operasjonen.
+bruker `TilAvslutningService` for å utføre operasjonen. Dersom saken allerede er avsluttet
+i RINA, settes den til `ALLEREDE_AVSLUTTET` i stedet (dette er ikke en feilsituasjon).
 
 ### Avslutt
 
 Avslutter rinasaker ved å oppdatere statusen til saken og eventuelt arkivere den. Denne
-prosessen bruker `AvsluttService` for å utføre operasjonen.
+prosessen bruker `AvsluttService` for å utføre operasjonen. Dersom saken allerede er
+avsluttet i RINA, settes den til `ALLEREDE_AVSLUTTET` i stedet (dette er ikke en
+feilsituasjon). Om saken er avsluttet i RINA sjekkes via `eux-rina-terminator-api`.
 
 ### Til Arkivering
 
