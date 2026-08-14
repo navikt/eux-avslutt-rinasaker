@@ -1,6 +1,7 @@
 package no.nav.eux.avslutt.rinasaker.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
+import no.nav.eux.avslutt.rinasaker.integration.EuxRinaTerminatorApiClient
 import no.nav.eux.avslutt.rinasaker.model.buc.Buc
 import no.nav.eux.avslutt.rinasaker.model.buc.BucAvsluttScope
 import no.nav.eux.avslutt.rinasaker.model.buc.bucList
@@ -17,6 +18,7 @@ import java.time.LocalDateTime.now
 class TilAvslutningService(
     val rinasakRepository: RinasakRepository,
     val dokumentRepository: DokumentRepository,
+    val euxRinaTerminatorApiClient: EuxRinaTerminatorApiClient,
 ) {
 
     val log = logger {}
@@ -38,6 +40,10 @@ class TilAvslutningService(
             rinasakId = rinasak.rinasakId,
             bucType = navn,
         )
+        if (rinasak.erAvsluttetIRina()) {
+            rinasak.alleredeAvsluttet()
+            return
+        }
         when {
             rinasak.erSakseier && bucAvsluttScopeSakseier != null -> tilAvslutning(rinasak, bucAvsluttScopeSakseier)
             !rinasak.erSakseier && bucAvsluttScopeMotpart != null -> tilAvslutning(rinasak, bucAvsluttScopeMotpart)
@@ -121,6 +127,30 @@ class TilAvslutningService(
             )
         )
         log.info { "Rinasak vil avsluttes av motpart" }
+    }
+
+    fun Rinasak.erAvsluttetIRina(): Boolean =
+        try {
+            euxRinaTerminatorApiClient.erAvsluttet(rinasakId)
+        } catch (e: Exception) {
+            mdc(rinasakId = rinasakId, bucType = bucType)
+            log.warn(e) { "Kunne ikke sjekke om rinasak er avsluttet i RINA, fortsetter til-avslutning" }
+            false
+        }
+
+    fun Rinasak.alleredeAvsluttet() {
+        mdc(
+            rinasakId = rinasakId,
+            bucType = bucType,
+        )
+        rinasakRepository.save(
+            copy(
+                status = Rinasak.Status.ALLEREDE_AVSLUTTET,
+                endretBruker = "til-avslutning",
+                endretTidspunkt = now()
+            )
+        )
+        log.info { "Rinasak allerede avsluttet i RINA" }
     }
 
 }

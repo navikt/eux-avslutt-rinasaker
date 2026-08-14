@@ -17,6 +17,15 @@ class EuxRinaTerminatorApiClient(
 
     val log = logger {}
 
+    fun erAvsluttet(rinasakId: Int): Boolean =
+        euxRinaTerminatorApiRestClient
+            .get()
+            .uri("${euxRinaTerminatorApiEndpoint}/api/v1/rinasaker/$rinasakId/status")
+            .retrieve()
+            .body(RinasakStatus::class.java)
+            ?.erAvsluttet
+            ?: false
+
     fun avsluttGlobalt(rinasakId: Int) = tryHandling {
         euxRinaTerminatorApiRestClient
             .post()
@@ -69,5 +78,9 @@ class EuxRinaTerminatorApiClient(
     data class ConflictError(
         val message: String,
         val conflictCategory: String
+    )
+
+    data class RinasakStatus(
+        val erAvsluttet: Boolean
     )
 }

@@ -47,6 +47,7 @@ class RapportService(
         val nyeSaker = repository.countByOpprettetTidspunktGreaterThanEqualAndOpprettetTidspunktLessThan(fra, til)
         val avsluttetGlobalt = repository.countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(AVSLUTTET_GLOBALT, fra, til)
         val avsluttetLokalt = repository.countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(AVSLUTTET_LOKALT, fra, til)
+        val alleredeAvsluttet = repository.countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(ALLEREDE_AVSLUTTET, fra, til)
         val arkivert = repository.countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(ARKIVERT, fra, til)
         val feilet = repository.countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(HANDLING_FEILET, fra, til) +
                 repository.countByStatusAndEndretTidspunktGreaterThanEqualAndEndretTidspunktLessThan(HANDLING_MANGLER, fra, til)
@@ -56,6 +57,7 @@ class RapportService(
         append("• Avsluttet globalt: `${fmt(avsluttetGlobalt)}`\n")
         append("• Avsluttet lokalt: `${fmt(avsluttetLokalt)}`\n")
         append("• Arkivert: `${fmt(arkivert)}`\n")
+        if (alleredeAvsluttet > 0) append("• Allerede avsluttet i RINA (ikke en feil): `${fmt(alleredeAvsluttet)}`\n")
         if (feilet > 0) append("• Feilet: `${fmt(feilet)}`\n")
         if (avsluttesAvMotpart > 0) append("• Avsluttes av motpart: `${fmt(avsluttesAvMotpart)}`\n")
     }
