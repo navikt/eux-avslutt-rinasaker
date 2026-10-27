@@ -175,7 +175,7 @@ Ved suksess settes saken tilbake til `UVIRKSOM` status. Denne prosessen bruker
 
 #### Avhengigheter
 
-* JDK 21
+* JDK 25
 
 ## API Dokumentasjon
 

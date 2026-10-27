@@ -7,7 +7,7 @@
     <parent>
         <groupId>no.nav.eux</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>2.0.23</version>
+        <version>3.0.1</version>
     </parent>
 
     <groupId>no.nav.eux.avslutt.rinasaker</groupId>
@@ -15,14 +15,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <flyway.version>12.9.0</flyway.version>
-        <lz4.version>1.11.1</lz4.version>
-        <netty.version>4.2.17.Final</netty.version>
-        <httpclient5.version>5.6.4</httpclient5.version>
-        <httpcore5.version>5.4.3</httpcore5.version>
         <log4j2.version>2.26.1</log4j2.version>
     </properties>
 
@@ -49,11 +42,6 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>at.yawk.lz4</groupId>
-            <artifactId>lz4-java</artifactId>
-            <version>${lz4.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -213,48 +201,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Tomcat: property alene slår ikke gjennom mot Spring Boot-BOM (import-scope).
-                 Eksplisitt dependencyManagement her vinner over arvet dependencyManagement. -->
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-el</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-websocket</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <!-- Netty: load-bearing — Spring Boot-BOM gir 4.2.15.Final uten denne -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-bom</artifactId>
-                <version>${netty.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- CVE-2026-54399, CVE-2026-54428: httpcore5 5.4.2 → 5.4.3 -->
-            <dependency>
-                <groupId>org.apache.httpcomponents.core5</groupId>
-                <artifactId>httpcore5</artifactId>
-                <version>${httpcore5.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents.core5</groupId>
-                <artifactId>httpcore5-h2</artifactId>
-                <version>${httpcore5.version}</version>
-            </dependency>
-            <!-- CVE-2026-64607: httpclient5 5.6.1 → 5.6.4 -->
-            <dependency>
-                <groupId>org.apache.httpcomponents.client5</groupId>
-                <artifactId>httpclient5</artifactId>
-                <version>${httpclient5.version}</version>
-            </dependency>
             <!-- CVE-2026-49844: log4j-api 2.25.4 → 2.26.1 -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -274,7 +220,6 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -292,7 +237,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>21</jvmTarget>
                     <compilerPlugins>
                         <plugin>jpa</plugin>
                         <plugin>spring</plugin>
