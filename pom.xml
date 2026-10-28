@@ -17,6 +17,7 @@
     <properties>
         <flyway.version>12.9.0</flyway.version>
         <log4j2.version>2.26.1</log4j2.version>
+        <lz4-java.version>1.11.4</lz4-java.version>
     </properties>
 
     <scm>
@@ -208,6 +209,12 @@
                 <version>${log4j2.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- Not managed by Spring Boot; kafka-clients brings vulnerable 1.11.2 (GHSA-mcr4-qmvw-px4g) -->
+            <dependency>
+                <groupId>at.yawk.lz4</groupId>
+                <artifactId>lz4-java</artifactId>
+                <version>${lz4-java.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
